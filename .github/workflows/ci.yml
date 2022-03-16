@@ -8,31 +8,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          sudo apt update,
-          sudo apt install valgrind,
-          sudo apt install cppcheck,
-          sudo apt-get install lcov,
-          git clone https://github.com/google/googletest.git -b release-1.11.0,
-          cd googletest,
-          mkdir build,
-          cd build,
-          cmake .. -DBUILD_GMOCK=OFF,
-          make,
-          sudo make install,
-          cd ../..
+      - run: sudo apt update
+      - run: sudo apt install valgrind
+      - run: sudo apt install cppcheck
+      - run: sudo apt-get install lcov
+      - run: git clone https://github.com/google/googletest.git -b release-1.11.0
+      - run: cd googletest
+      - run: mkdir build
+      - run: cd build
+      - run: cmake .. -DBUILD_GMOCK=OFF
+      - run: make
+      - run: sudo make install
+      - run: cd ../..
   build:
     runs-on: ubuntu-latest
     needs: [install]
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          cmake CMakeLists.txt
-          make
+      - run: cmake CMakeLists.txt
+      - run: make
   test:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
       - uses: actions/checkout@v2
-      - run:
-          ./tests
+      - run: ./tests
