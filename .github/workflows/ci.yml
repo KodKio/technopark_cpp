@@ -27,12 +27,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          cmake CMakeList.txt
+          cmake CMakeLists.txt
           make
   test:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          ls
+      - run:
+          ./tests
