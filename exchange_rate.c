@@ -41,9 +41,9 @@ Exchange_rate create_rate(FILE* in, FILE* out) {
     }
 
     Exchange_rate rate;
-    rate.bank_name = malloc(strlen(bank_name));
-    rate.currency_from = malloc(strlen(currency_from));
-    rate.currency_to = malloc(strlen(currency_to));
+    rate.bank_name = malloc(strlen(bank_name) + 1);
+    rate.currency_from = malloc(strlen(currency_from) + 1);
+    rate.currency_to = malloc(strlen(currency_to) + 1);
     strcpy(rate.bank_name, bank_name);
     strcpy(rate.currency_from, currency_from);
     strcpy(rate.currency_to, currency_to);

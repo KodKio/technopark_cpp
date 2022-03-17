@@ -47,9 +47,9 @@ TEST(ExchangeRateSuite, TestCreateRateRight) {
 
     EXPECT_EQ(eq_rates(result, expected_rate), true);
 
-    fclose(ostream);
-    fclose(istream);
-    free(out);
+    free(result.bank_name);
+    free(result.currency_from);
+    free(result.currency_to);
 }
 
 TEST(ExchangeRateSuite, TestCreateRateWrong) {
@@ -73,9 +73,9 @@ TEST(ExchangeRateSuite, TestCreateRateWrong) {
 
     EXPECT_EQ(eq_rates(result, expected_rate), true);
 
-    fclose(ostream);
-    fclose(istream);
-    free(out);
+    free(result.bank_name);
+    free(result.currency_from);
+    free(result.currency_to);
 }
 
 TEST(ArraySuite, TestInputIntRight) {
@@ -89,16 +89,13 @@ TEST(ArraySuite, TestInputIntRight) {
     int result = input_int(0, 110, istream, ostream);
 
     EXPECT_EQ(expected, result);
-
-    fclose(istream);
-    fclose(ostream);
 }
 
 TEST(ArraySuite, TestInputIntWrong) {
     char* in = (char*)"190\n99\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    size_t size = strlen("Try again:\n");
+    size_t size = strlen("Try again:\n") + 1;
     char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
@@ -106,17 +103,19 @@ TEST(ArraySuite, TestInputIntWrong) {
     int result = input_int(0, 110, istream, ostream);
 
     EXPECT_EQ(expected, result);
-
-    fclose(istream);
-    fclose(ostream);
-    free(out);
 }
 
 TEST(ArraySuite, TestGrowNotNull) {
-    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 10),10,16 };
+    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 2),2,2 };
+    Exchange_rate first = {(char*)"alf",(char*)"RUB",(char*)"USD",100 };
+    Exchange_rate second = {(char*)"sber",(char*)"EUR",(char*)"USD",1.1 };
+
+    arr.array[0] = first;
+    arr.array[1] = second;
+
     grow(&arr);
 
-    EXPECT_EQ(arr.capacity, 32);
+    EXPECT_EQ(arr.capacity, 4);
 
     free(arr.array);
 }
@@ -161,10 +160,11 @@ TEST(ArraySuite, TestAddRateFull) {
     EXPECT_EQ(arr.size, 3);
     EXPECT_EQ(arr.capacity, 4);
 
+    free(arr.array[arr.size - 1].bank_name);
+    free(arr.array[arr.size - 1].currency_to);
+    free(arr.array[arr.size - 1].currency_from);
+
     free(arr.array);
-    free(out);
-    fclose(istream);
-    fclose(ostream);
 }
 
 TEST(ArraySuite, TestDeleteOnIndex) {
@@ -213,9 +213,6 @@ TEST(ArraySuite, TestDeleteRateWrongInput) {
     EXPECT_EQ(delete_rate(&arr, istream, ostream), SUCCESS);
 
     free(arr.array);
-    free(out);
-    fclose(istream);
-    fclose(ostream);
 }
 
 TEST(ArraySuite, TestDeleteRateRight) {
@@ -245,9 +242,6 @@ TEST(ArraySuite, TestDeleteRateRight) {
     EXPECT_EQ(delete_rate(&arr, istream, ostream), SUCCESS);
 
     free(arr.array);
-    free(out);
-    fclose(istream);
-    fclose(ostream);
 }
 
 TEST(ArraySuite, TestDeleteRateZeroSize) {
@@ -265,9 +259,6 @@ TEST(ArraySuite, TestDeleteRateZeroSize) {
     EXPECT_EQ(delete_rate(&arr, istream, ostream), ERROR);
 
     free(arr.array);
-    free(out);
-    fclose(istream);
-    fclose(ostream);
 }
 
 TEST(ArraySuite, TestCopyArray) {
@@ -287,7 +278,7 @@ TEST(ArraySuite, TestCopyArray) {
     EXPECT_EQ(dest.size, source.size);
     EXPECT_EQ(dest.capacity, source.capacity);
 
-    for (int i = 0; i < source.size; i++) {
+    for (int i = 0; i < (int)source.size; i++) {
         EXPECT_EQ(eq_rates(dest.array[i], source.array[i]), true);
     };
 
@@ -328,7 +319,8 @@ TEST(ArraySuite, TestFind) {
 
     char* currency_to = (char*)"EUR";
     Array_of_rates result = {nullptr, 0, 0};
-    Array_of_rates colored = {(Exchange_rate*)malloc(sizeof(arr.size)), 0, arr.capacity};
+    Array_of_rates colored = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * arr.size),
+                              0, arr.capacity};
     colored.array[0] = arr.array[0];
     colored.size = 1;
     double min = 100000;
@@ -345,7 +337,7 @@ TEST(ArraySuite, TestFind) {
 
     EXPECT_EQ(result.size, 2);
     EXPECT_EQ(result.capacity, 2);
-    for (int i = 0; i < result.size; i++) {
+    for (int i = 0; i < (int)result.size; i++) {
         EXPECT_EQ(eq_rates(result.array[i], expected.array[i]), true);
     }
 
@@ -387,10 +379,7 @@ TEST(ArraySuite, TestFindRateWithWay) {
 
     EXPECT_EQ(find_rate(&arr, istream, ostream), SUCCESS);
 
-    fclose(ostream);
-    fclose(istream);
     free(arr.array);
-    free(out);
 }
 
 TEST(ArraySuite, TestFindRateWithoutWay) {
@@ -421,14 +410,11 @@ TEST(ArraySuite, TestFindRateWithoutWay) {
 
     EXPECT_EQ(find_rate(&arr, istream, ostream), ERROR);
 
-    fclose(ostream);
-    fclose(istream);
     free(arr.array);
-    free(out);
 }
 
 TEST(ArraySuite, TestFindRateWithDifferentWays) {
-    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4),3,4 };
+    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 3, 4};
     Exchange_rate first = {(char*)"alf",(char*)"EUR",(char*)"USD",100 };
     Exchange_rate second = {(char*)"sber",(char*)"USD",(char*)"RUB",1.1 };
     Exchange_rate third = {(char*)"tink",(char*)"EUR",(char*)"USD",90 };
@@ -456,10 +442,7 @@ TEST(ArraySuite, TestFindRateWithDifferentWays) {
 
     EXPECT_EQ(find_rate(&arr, istream, ostream), SUCCESS);
 
-    fclose(ostream);
-    fclose(istream);
     free(arr.array);
-    free(out);
 }
 
 int main(int argc, char **argv) {

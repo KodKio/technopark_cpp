@@ -5,9 +5,11 @@ void grow(Array_of_rates* arr_rates) {
         arr_rates->capacity = 1;
         arr_rates->array = malloc(sizeof(Exchange_rate));
     } else {
-        unsigned int new_capacity = arr_rates->capacity * 2;
+        size_t new_capacity = arr_rates->capacity * 2;
         Exchange_rate* new_array = malloc(sizeof(Exchange_rate) * new_capacity);
-        memcpy(new_array, arr_rates->array, sizeof(Exchange_rate) * arr_rates->capacity);
+        for (int i = 0; i < arr_rates->capacity; i++) {
+            new_array[i] = arr_rates->array[i];
+        }
         free(arr_rates->array);
         arr_rates->array = new_array;
         arr_rates->capacity = new_capacity;
@@ -100,7 +102,8 @@ int find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
         if (strcmp(currency_from, arr_rates->array[i].currency_from) == 0) {
             Array_of_rates res = {NULL, 0, 0};
 
-            Array_of_rates colored = {malloc(sizeof(arr_rates->size)), 0, arr_rates->capacity};
+            Array_of_rates colored = {malloc(sizeof(Exchange_rate) * arr_rates->size),
+                                      0, arr_rates->capacity};
             colored.array[0] = arr_rates->array[i];
             colored.size = 1;
 

@@ -23,6 +23,11 @@ void run(FILE* in, FILE* out) {
         int action_number = input_int(0, 5, in, out);
         if (action_number == 5) {
             flag = false;
+            for (int i = 0; i < arr_rates.size; i++) {
+                free(arr_rates.array[i].bank_name);
+                free(arr_rates.array[i].currency_to);
+                free(arr_rates.array[i].currency_from);
+            }
             if (arr_rates.array)
                 free(arr_rates.array);
         } else {
