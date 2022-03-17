@@ -610,6 +610,7 @@ TEST(ArraySuite, TestFindRateWithDifferentWays) {
 }
 
 int main(int argc, char **argv) {
+    setlocale(LC_CTYPE, "rus");
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
