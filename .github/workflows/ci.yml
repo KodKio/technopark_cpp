@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Building
+      - name: Installing
         run: |
           git clone https://github.com/google/googletest.git -b release-1.11.0
           cd googletest
@@ -18,7 +18,11 @@ jobs:
           make
           sudo make install
           cd ../..
+      - name: Building
+        run: |
           cmake CMakeLists.txt
           make
-      - name: testing
-        run: ./tests
+      - name: Testing
+        run: |
+          ls -al
+          ./tests
