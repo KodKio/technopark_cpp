@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+      - homework_1
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Installing
+        run: |
+          git clone https://github.com/google/googletest.git -b release-1.11.0
+          cd googletest
+          mkdir build
+          cd build
+          cmake .. -DBUILD_GMOCK=OFF
+          make
+          sudo make install
+          cd ../..
+      - name: Building
+        run: |
+          cmake CMakeLists.txt
+          make
+      - name: Testing
+        run: |
+          ls -al
+          ./tests
