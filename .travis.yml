@@ -1,0 +1,40 @@
+sudo: required
+language: cpp
+
+os:
+  - linux
+
+compiler:
+  - g++
+
+env:
+  global:
+    - CODECOV_TOKEN=''
+
+install:
+  - sudo apt update
+  - sudo apt install valgrind
+  - sudo apt install cppcheck
+  - sudo apt-get install lcov
+  - git clone https://github.com/google/googletest.git -b release-1.11.0
+  - cd googletest
+  - mkdir build
+  - cd build
+  - cmake .. -DBUILD_GMOCK=OFF
+  - make
+  - sudo make install
+  - cd ../..
+
+script:
+  - cmake ./CMakeLists.txt
+  - make
+  - ls
+  - ./tests
+
+  - valgrind ./tests
+  - cppcheck --inconclusive --enable=all --language=c ./shapes.c ./main.c
+
+after_success:
+  - lcov --capture --directory . --output-file coverage.info
+  - lcov --list coverage.info
+  - bash <(curl -s https://codecov.io/bash) -f coverage.info
