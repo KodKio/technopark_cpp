@@ -61,7 +61,7 @@ TEST(ExchangeRateSuite, TestCreateRateWrong) {
                             "Введите курс:\n"
                             "Попробуйте снова ввести курс:\n";
 
-    size_t size = strlen(expected) + 1;
+    size_t size = strlen(expected);
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
