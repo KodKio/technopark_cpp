@@ -15,11 +15,11 @@ int input_int(int l, int r, FILE* in, FILE* out);
 
 void add_rate(Array_of_rates *arr_rates, FILE* in, FILE* out);
 
-void delete_rate(Array_of_rates *arr_rates, FILE* in, FILE* out);
+int delete_rate(Array_of_rates *arr_rates, FILE* in, FILE* out);
 
 void delete_on_index(Array_of_rates *arr_rates, int index);
 
-void find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out);
+int find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out);
 
 void show_list_of_currency_from(Array_of_rates *arr_rates, FILE* out);
 

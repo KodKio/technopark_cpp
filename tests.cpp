@@ -181,7 +181,7 @@ TEST(ArraySuite, TestDeleteOnIndex) {
     free(arr.array);
 }
 
-TEST(ArraySuite, TestDeleteRateWrong) {
+TEST(ArraySuite, TestDeleteRateWrongInput) {
     Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4),3,4 };
     Exchange_rate first = {(char*)"alf",(char*)"RUB",(char*)"USD",100 };
     Exchange_rate second = {(char*)"sber",(char*)"EUR",(char*)"USD",1.1 };
@@ -206,11 +206,7 @@ TEST(ArraySuite, TestDeleteRateWrong) {
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
-    delete_rate(&arr, istream, ostream);
-
-    for (int i = 0; i < size; i++) {
-        EXPECT_EQ(expected[i], out[i]);
-    }
+    EXPECT_EQ(delete_rate(&arr, istream, ostream), SUCCESS);
 
     free(arr.array);
     fclose(istream);
@@ -241,11 +237,7 @@ TEST(ArraySuite, TestDeleteRateRight) {
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
-    delete_rate(&arr, istream, ostream);
-
-    for (int i = 0; i < size; i++) {
-        EXPECT_EQ(expected[i], out[i]);
-    }
+    EXPECT_EQ(delete_rate(&arr, istream, ostream), SUCCESS);
 
     free(arr.array);
     fclose(istream);
@@ -264,11 +256,7 @@ TEST(ArraySuite, TestDeleteRateZeroSize) {
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
-    delete_rate(&arr, istream, ostream);
-
-    for (int i = 0; i < size; i++) {
-        EXPECT_EQ(expected[i], out[i]);
-    }
+    EXPECT_EQ(delete_rate(&arr, istream, ostream), ERROR);
 
     free(arr.array);
     fclose(istream);
@@ -390,11 +378,7 @@ TEST(ArraySuite, TestFindRateWithWay) {
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
-    find_rate(&arr, istream, ostream);
-
-    for (int i = 0; i < size; i++) {
-        EXPECT_EQ(expected[i], out[i]);
-    }
+    EXPECT_EQ(find_rate(&arr, istream, ostream), SUCCESS);
 
     fclose(ostream);
     fclose(istream);
@@ -428,11 +412,7 @@ TEST(ArraySuite, TestFindRateWithoutWay) {
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
-    find_rate(&arr, istream, ostream);
-
-    for (int i = 0; i < size; i++) {
-        EXPECT_EQ(expected[i], out[i]);
-    }
+    EXPECT_EQ(find_rate(&arr, istream, ostream), ERROR);
 
     fclose(ostream);
     fclose(istream);
@@ -466,11 +446,7 @@ TEST(ArraySuite, TestFindRateWithDifferentWays) {
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
-    find_rate(&arr, istream, ostream);
-
-    for (int i = 0; i < size; i++) {
-        EXPECT_EQ(expected[i], out[i]);
-    }
+    EXPECT_EQ(find_rate(&arr, istream, ostream), SUCCESS);
 
     fclose(ostream);
     fclose(istream);

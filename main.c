@@ -40,12 +40,20 @@ void do_action(int number, Array_of_rates *arr_rates, FILE* in, FILE* out) {
             break;
         }
         case 2: {
-            delete_rate(arr_rates, in, out);
+            int check = delete_rate(arr_rates, in, out);
+            if (check == SUCCESS) {
+                fprintf(out, "Rate deleted.\n");
+            } else {
+                fprintf(out, "Nothing to delete.\n");
+            }
             break;
         }
         case 3: {
             if (arr_rates->size > 0) {
-                find_rate(arr_rates, in, out);
+                int check = find_rate(arr_rates, in, out);
+                if (!check) {
+                    fprintf(out, "No variants to exchange.\n");
+                }
             } else {
                 fprintf(out, "Нет курсов перевода.\n");
             }

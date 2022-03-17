@@ -6,6 +6,11 @@
 #include <stdbool.h>
 #include <string.h>
 
+enum {
+    ERROR = 0,
+    SUCCESS
+};
+
 typedef struct Exchange_rate {
     char* bank_name;
     char* currency_from;

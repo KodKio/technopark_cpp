@@ -36,10 +36,9 @@ void add_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
     fprintf(out, "Rate added.\n");
 }
 
-void delete_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
+int delete_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
     if (arr_rates->size == 0) {
-        fprintf(out, "Nothing to delete.\n");
-        return;
+        return ERROR;
     }
 
     show_list(arr_rates, out);
@@ -51,6 +50,7 @@ void delete_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
     delete_on_index(arr_rates, number);
 
     fprintf(out, "Rate deleted.\n");
+    return SUCCESS;
 }
 
 void delete_on_index(Array_of_rates* arr_rates, int index) {
@@ -76,7 +76,7 @@ void delete_on_index(Array_of_rates* arr_rates, int index) {
     arr_rates->capacity = new_capacity;
 }
 
-void find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
+int find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
     fprintf(out, "List of currencies from which you can transfer:\n");
     show_list_of_currency_from(arr_rates, out);
     fprintf(out, "Choose number of currency:\n");
@@ -121,8 +121,9 @@ void find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
         show_list_reversed(&result, out);
         print_result_ratio(&result, out);
         free(result.array);
+        return SUCCESS;
     } else {
-        fprintf(out, "No variants to exchange.\n");
+        return ERROR;
     }
 }
 
