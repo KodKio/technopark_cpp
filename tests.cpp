@@ -374,7 +374,7 @@ TEST(ArraySuite, TestFindRateWithWay) {
                             "  2)       alf | USD ---> EUR: 1.000000\n"
                             "Resulting rate = 100.000000\n";
 
-    size_t size = strlen(expected);
+    size_t size = strlen(expected) + 1;
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
@@ -442,7 +442,7 @@ TEST(ArraySuite, TestFindRateWithDifferentWays) {
                             "  1)      tink | EUR ---> USD: 90.000000\n"
                             "  2)      sber | USD ---> RUB: 1.100000\n"
                             "Resulting rate = 99.000000\n";
-    size_t size = strlen(expected);
+    size_t size = strlen(expected) + 1;
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
