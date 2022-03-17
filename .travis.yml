@@ -32,7 +32,7 @@ script:
   - ./tests
 
   - valgrind ./tests
-  - cppcheck --inconclusive --enable=all --language=c ./shapes.c ./main.c
+  - cppcheck --inconclusive --enable=all --language=c ./array_of_rates.c ./exchange_rate ./main.c
 
 after_success:
   - lcov --capture --directory . --output-file coverage.info
