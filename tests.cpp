@@ -39,7 +39,7 @@ TEST(ExchangeRateSuite, TestCreateRateRight) {
                             "Enter rate:\n";
 
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     Exchange_rate result = create_rate(istream, ostream);
@@ -49,6 +49,7 @@ TEST(ExchangeRateSuite, TestCreateRateRight) {
 
     fclose(ostream);
     fclose(istream);
+    free(out);
 }
 
 TEST(ExchangeRateSuite, TestCreateRateWrong) {
@@ -63,7 +64,7 @@ TEST(ExchangeRateSuite, TestCreateRateWrong) {
                             "Try again to enter rate:\n";
 
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     Exchange_rate result = create_rate(istream, ostream);
@@ -74,14 +75,15 @@ TEST(ExchangeRateSuite, TestCreateRateWrong) {
 
     fclose(ostream);
     fclose(istream);
+    free(out);
 }
 
 TEST(ArraySuite, TestInputIntRight) {
     char* in = (char*)"99";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* out[10];
-    FILE* ostream = fmemopen(out,10, "w");
+    char* out = (char*)malloc(1);
+    FILE* ostream = fmemopen(out, 10, "w");
 
     int expected = 99;
     int result = input_int(0, 110, istream, ostream);
@@ -97,7 +99,7 @@ TEST(ArraySuite, TestInputIntWrong) {
     FILE* istream = fmemopen(in, strlen(in), "r");
 
     size_t size = strlen("Try again:\n");
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     int expected = 99;
@@ -107,6 +109,7 @@ TEST(ArraySuite, TestInputIntWrong) {
 
     fclose(istream);
     fclose(ostream);
+    free(out);
 }
 
 TEST(ArraySuite, TestGrowNotNull) {
@@ -149,7 +152,7 @@ TEST(ArraySuite, TestAddRateFull) {
 
 
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     add_rate(&arr, istream, ostream);
@@ -159,6 +162,7 @@ TEST(ArraySuite, TestAddRateFull) {
     EXPECT_EQ(arr.capacity, 4);
 
     free(arr.array);
+    free(out);
     fclose(istream);
     fclose(ostream);
 }
@@ -203,12 +207,13 @@ TEST(ArraySuite, TestDeleteRateWrongInput) {
                             "Rate deleted.\n";
 
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     EXPECT_EQ(delete_rate(&arr, istream, ostream), SUCCESS);
 
     free(arr.array);
+    free(out);
     fclose(istream);
     fclose(ostream);
 }
@@ -234,12 +239,13 @@ TEST(ArraySuite, TestDeleteRateRight) {
                             "Rate deleted.\n";
 
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     EXPECT_EQ(delete_rate(&arr, istream, ostream), SUCCESS);
 
     free(arr.array);
+    free(out);
     fclose(istream);
     fclose(ostream);
 }
@@ -253,12 +259,13 @@ TEST(ArraySuite, TestDeleteRateZeroSize) {
     char* expected = (char*)"Nothing to delete.\n";
 
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     EXPECT_EQ(delete_rate(&arr, istream, ostream), ERROR);
 
     free(arr.array);
+    free(out);
     fclose(istream);
     fclose(ostream);
 }
@@ -375,7 +382,7 @@ TEST(ArraySuite, TestFindRateWithWay) {
                             "Resulting rate = 100.000000\n";
 
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     EXPECT_EQ(find_rate(&arr, istream, ostream), SUCCESS);
@@ -383,7 +390,7 @@ TEST(ArraySuite, TestFindRateWithWay) {
     fclose(ostream);
     fclose(istream);
     free(arr.array);
-
+    free(out);
 }
 
 TEST(ArraySuite, TestFindRateWithoutWay) {
@@ -409,7 +416,7 @@ TEST(ArraySuite, TestFindRateWithoutWay) {
                             "Choose number of currency:\n"
                             "No variants to exchange.\n";
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     EXPECT_EQ(find_rate(&arr, istream, ostream), ERROR);
@@ -417,6 +424,7 @@ TEST(ArraySuite, TestFindRateWithoutWay) {
     fclose(ostream);
     fclose(istream);
     free(arr.array);
+    free(out);
 }
 
 TEST(ArraySuite, TestFindRateWithDifferentWays) {
@@ -443,7 +451,7 @@ TEST(ArraySuite, TestFindRateWithDifferentWays) {
                             "  2)      sber | USD ---> RUB: 1.100000\n"
                             "Resulting rate = 99.000000\n";
     size_t size = strlen(expected) + 1;
-    char out[size];
+    char* out = (char*)malloc(size);
     FILE* ostream = fmemopen(out, size, "w");
 
     EXPECT_EQ(find_rate(&arr, istream, ostream), SUCCESS);
@@ -451,6 +459,7 @@ TEST(ArraySuite, TestFindRateWithDifferentWays) {
     fclose(ostream);
     fclose(istream);
     free(arr.array);
+    free(out);
 }
 
 int main(int argc, char **argv) {
