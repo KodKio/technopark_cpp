@@ -42,10 +42,13 @@ jobs:
           sudo apt install cppcheck
           sudo apt install clang-format
           pip install cpplint
+          sudo chmod +x ./scripts/formating.sh
       - name: Formating
         run: ./scripts/formating.sh
       - name: Cppcheck
         run: |
           cppcheck --inconclusive --enable=all --language=c++ ./tests.cpp
           cppcheck --inconclusive --enable=all --language=c ./main.c ./array_of_rates.c ./exchange_rate.c
+      - name: Cpplint
+        run: |
           
