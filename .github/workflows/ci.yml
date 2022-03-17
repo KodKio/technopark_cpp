@@ -4,7 +4,7 @@ on:
       - homework_1
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,12 +20,5 @@ jobs:
           cd ../..
           cmake CMakeLists.txt
           make
-  test:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Testing
-        run: |
-          ls -al
-          ./tests
+      - name: testing
+        run: ./tests
