@@ -77,6 +77,9 @@ void delete_on_index(Array_of_rates* arr_rates, int index) {
 }
 
 int find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
+    if (arr_rates->size == 0) {
+        return ERROR;
+    }
     fprintf(out, "List of currencies from which you can transfer:\n");
     show_list_of_currency_from(arr_rates, out);
     fprintf(out, "Choose number of currency:\n");
@@ -214,10 +217,14 @@ void print_result_ratio(Array_of_rates* arr_rates, FILE* out) {
     fprintf(out, "Resulting rate = %lf\n", result);
 }
 
-void show_list(Array_of_rates *arr_rates, FILE* out) {
+int show_list(Array_of_rates *arr_rates, FILE* out) {
+    if (arr_rates->size == 0) {
+        return ERROR;
+    }
     fprintf(out, "List of exchange rates:\n");
     for (int i = 0; i < arr_rates->size; i++) {
         fprintf(out, "%3d)", i + 1);
         print(arr_rates->array[i], out);
     }
+    return SUCCESS;
 }

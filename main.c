@@ -52,15 +52,18 @@ void do_action(int number, Array_of_rates *arr_rates, FILE* in, FILE* out) {
             if (arr_rates->size > 0) {
                 int check = find_rate(arr_rates, in, out);
                 if (!check) {
-                    fprintf(out, "No variants to exchange.\n");
+                    fprintf(out, "Some thing went wrong.\n");
                 }
             } else {
-                fprintf(out, "Нет курсов перевода.\n");
+                fprintf(out, "No rates.\n");
             }
             break;
         }
         case 4: {
-            show_list(arr_rates, out);
+            int check = show_list(arr_rates, out);
+            if (!check) {
+                fprintf(out, "Nothing to show.\n");
+            }
             break;
         }
         default: {

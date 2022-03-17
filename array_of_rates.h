@@ -36,6 +36,6 @@ void show_list_reversed(Array_of_rates *arr_rates, FILE* out);
 
 void print_result_ratio(Array_of_rates *arr_rates, FILE* out);
 
-void show_list(Array_of_rates* arr_rates, FILE* out);
+int show_list(Array_of_rates* arr_rates, FILE* out);
 
 #endif //TECHNOPARK_CPP_ARRAY_OF_RATES_H
