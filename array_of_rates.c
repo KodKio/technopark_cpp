@@ -19,7 +19,7 @@ int input_int(int l, int r, FILE* in, FILE* out) {
     fscanf(in, "%99s", value);
     int number = (int)get_value(value);
     while (number == -1 || number <= l || number > r) {
-        fprintf(out, "Попробуйте снова:\n");
+        fprintf(out, "Try again:\n");
         fscanf(in, "%99s", value);
         number = (int)get_value(value);
     }
@@ -33,24 +33,24 @@ void add_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
     Exchange_rate new_rate = create_rate(in, out);
     arr_rates->array[arr_rates->size] = new_rate;
     arr_rates->size++;
-    fprintf(out, "Курс добавлен.\n");
+    fprintf(out, "Rate added.\n");
 }
 
 void delete_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
     if (arr_rates->size == 0) {
-        fprintf(out, "Нечего удалять.\n");
+        fprintf(out, "Nothing to delete.\n");
         return;
     }
 
     show_list(arr_rates, out);
 
-    fprintf(out, "\nВыберите какой курс удалить:\n");
+    fprintf(out, "\nChoose rate to delete:\n");
     int number = input_int(0, (int)arr_rates->size - 1, in, out);
     number--;
 
     delete_on_index(arr_rates, number);
 
-    fprintf(out, "Курс удален.\n");
+    fprintf(out, "Rate deleted.\n");
 }
 
 void delete_on_index(Array_of_rates* arr_rates, int index) {
@@ -77,14 +77,14 @@ void delete_on_index(Array_of_rates* arr_rates, int index) {
 }
 
 void find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
-    fprintf(out, "Список валют из которых можно перевести:\n");
+    fprintf(out, "List of currencies from which you can transfer:\n");
     show_list_of_currency_from(arr_rates, out);
-    fprintf(out, "Выберите номер валюты:\n");
+    fprintf(out, "Choose number of currency:\n");
     int number_currency_from = input_int(0, (int)arr_rates->size, in, out);
 
-    fprintf(out, "Список валют в которые можно перевести:\n");
+    fprintf(out, "List of currencies that can be converted to:\n");
     show_list_of_currency_to(arr_rates, out);
-    fprintf(out, "Выберите номер валюты:\n");
+    fprintf(out, "Choose number of currency:\n");
     int number_currency_to = input_int(0, (int)arr_rates->size, in, out);
 
     char* currency_from = arr_rates->array[number_currency_from - 1].currency_from;
@@ -122,7 +122,7 @@ void find_rate(Array_of_rates *arr_rates, FILE* in, FILE* out) {
         print_result_ratio(&result, out);
         free(result.array);
     } else {
-        fprintf(out, "Нет вариантов для перевода.\n");
+        fprintf(out, "No variants to exchange.\n");
     }
 }
 
@@ -198,7 +198,7 @@ void show_list_of_currency_to(Array_of_rates* arr_rates, FILE* out) {
 
 
 void show_list_reversed(Array_of_rates *arr_rates, FILE* out) {
-    fprintf(out, "Список обменных курсов:\n");
+    fprintf(out, "List of exchange rates:\n");
     for (int i = (int)arr_rates->size - 1, j = 0; i >= 0; i--, j++) {
         fprintf(out, "%3d)", j + 1);
         print(arr_rates->array[i], out);
@@ -210,11 +210,11 @@ void print_result_ratio(Array_of_rates* arr_rates, FILE* out) {
     for (int i = 0; i < arr_rates->size; i++) {
         result *= arr_rates->array[i].ratio;
     }
-    fprintf(out, "Результирующий курс = %lf\n", result);
+    fprintf(out, "Resulting rate = %lf\n", result);
 }
 
 void show_list(Array_of_rates *arr_rates, FILE* out) {
-    fprintf(out, "Список обменных курсов:\n");
+    fprintf(out, "List of exchange rates:\n");
     for (int i = 0; i < arr_rates->size; i++) {
         fprintf(out, "%3d)", i + 1);
         print(arr_rates->array[i], out);

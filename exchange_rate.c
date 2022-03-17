@@ -18,24 +18,24 @@ Exchange_rate create_rate(FILE* in, FILE* out) {
     char value_str[100];
     char tmp[100];
 
-    fprintf(out, "Введите название банка:\n");
+    fprintf(out, "Enter bank name:\n");
     fscanf(in, "%99s", bank_name);
 
-    fprintf(out, "Введите изначальную валюту(длина названия не более 3):\n");
+    fprintf(out, "Enter the original currency (the name length is no more than 3):\n");
     fscanf(in, "%99s", tmp);
     strncpy(currency_from, tmp, 3);
     currency_from[3] = '\0';
 
-    fprintf(out, "Введите валюту в которую будет перевод(длина названия не более 3):\n");
+    fprintf(out, "Enter the currency to which the transfer will be made (the length of the name is no more than 3):\n");
     fscanf(in, "%99s", tmp);
     strncpy(currency_to, tmp, 4);
     currency_to[3] = '\0';
 
-    fprintf(out, "Введите курс:\n");
+    fprintf(out, "Enter rate:\n");
     fscanf(in, "%99s", value_str);
     ratio = get_value(value_str);
     while (ratio == -1) {
-        fprintf(out, "Попробуйте снова ввести курс:\n");
+        fprintf(out, "Try again to enter rate:\n");
         fscanf(in, "%99s", value_str);
         ratio = get_value(value_str);
     }

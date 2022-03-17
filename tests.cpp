@@ -33,10 +33,10 @@ TEST(ExchangeRateSuite, TestCreateRateRight) {
     char* in = (char*)"alf\nRUB\nEUR\n100\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Введите название банка:\n"
-                            "Введите изначальную валюту(длина названия не более 3):\n"
-                            "Введите валюту в которую будет перевод(длина названия не более 3):\n"
-                            "Введите курс:\n";
+    char* expected = (char*)"Enter bank name:\n"
+                            "Enter the original currency (the name length is no more than 3):\n"
+                            "Enter the currency to which the transfer will be made (the length of the name is no more than 3):\n"
+                            "Enter rate:\n";
 
     size_t size = strlen(expected) + 1;
     char out[size];
@@ -55,13 +55,14 @@ TEST(ExchangeRateSuite, TestCreateRateWrong) {
     char* in = (char*)"alf\nRUBS\nEURS\none\n100\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Введите название банка:\n"
-                            "Введите изначальную валюту(длина названия не более 3):\n"
-                            "Введите валюту в которую будет перевод(длина названия не более 3):\n"
-                            "Введите курс:\n"
-                            "Попробуйте снова ввести курс:\n";
+    char* expected = (char*)"Enter bank name:\n"
+                            "Enter the original currency (the name length is no more than 3):\n"
+                            "Enter the currency to which the transfer will be made (the length of the name is no more "
+                            "than 3):\n"
+                            "Enter rate:\n"
+                            "Try again to enter rate:\n";
 
-    size_t size = strlen(expected);
+    size_t size = strlen(expected) + 1;
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
@@ -110,7 +111,7 @@ TEST(ArraySuite, TestInputIntWrong) {
     char* in = (char*)"190\n99\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    size_t size = strlen("Попробуйте снова:\n");
+    size_t size = strlen("Try again:\n");
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
@@ -154,11 +155,12 @@ TEST(ArraySuite, TestAddRateFull) {
     char* in = (char*)"tink\nRUB\nEUR\n100\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Введите название банка:\n"
-                            "Введите изначальную валюту(длина названия не более 3):\n"
-                            "Введите валюту в которую будет перевод(длина названия не более 3):\n"
-                            "Введите курс:\n"
-                            "Курс добавлен.\n";
+    char* expected = (char*)"Enter bank name:\n"
+                            "Enter the original currency (the name length is no more than 3):\n"
+                            "Enter the currency to which the transfer will be made (the length of the name is no more"
+                            " than 3):\n"
+                            "Enter rate:\n"
+                            "Rate added.\n";
 
 
     size_t size = strlen(expected) + 1;
@@ -208,13 +210,13 @@ TEST(ArraySuite, TestDeleteRateWrong) {
     char* in = (char*)"asd\n1\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Список обменных курсов:\n"
+    char* expected = (char*)"List of exchange rates:\n"
                             "  1)       alf | RUB ---> USD: 100.000000\n"
                             "  2)      sber | EUR ---> USD: 1.100000\n"
                             "  3)      tink | RUB ---> EUR: 100.000000\n"
-                            "\nВыберите какой курс удалить:\n"
-                            "Попробуйте снова:\n"
-                            "Курс удален.\n";
+                            "\nChoose rate to delete:\n"
+                            "Try again:\n"
+                            "Rate deleted.\n";
 
     size_t size = strlen(expected) + 1;
     char out[size];
@@ -242,12 +244,12 @@ TEST(ArraySuite, TestDeleteRateRight) {
     char* in = (char*)"1\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Список обменных курсов:\n"
+    char* expected = (char*)"List of exchange rates:\n"
                             "  1)       alf | RUB ---> USD: 100.000000\n"
                             "  2)      sber | EUR ---> USD: 1.100000\n"
                             "  3)      tink | RUB ---> EUR: 100.000000\n"
-                            "\nВыберите какой курс удалить:\n"
-                            "Курс удален.\n";
+                            "\nChoose rate to delete:\n"
+                            "Rate deleted.\n";
 
     size_t size = strlen(expected) + 1;
     char out[size];
@@ -268,7 +270,7 @@ TEST(ArraySuite, TestDeleteRateZeroSize) {
     char* in = (char*)"1\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Нечего удалять.\n";
+    char* expected = (char*)"Nothing to delete.\n";
 
     size_t size = strlen(expected) + 1;
     char out[size];
@@ -389,7 +391,7 @@ TEST(ArraySuite, TestShowReversedList) {
     arr.array[1] = second;
     arr.array[2] = third;
 
-    char* expected = (char*)"Список обменных курсов:\n"
+    char* expected = (char*)"List of exchange rates:\n"
                             "  1)      tink | RUB ---> EUR: 100.000000\n"
                             "  2)      sber | EUR ---> USD: 1.100000\n"
                             "  3)       alf | RUB ---> USD: 100.000000\n";
@@ -416,7 +418,7 @@ TEST(ArraySuite, TestPrintResultRatio) {
     arr.array[1] = second;
     arr.array[2] = third;
 
-    char* expected = (char*)"Результирующий курс = 11000.000000\n";
+    char* expected = (char*)"Resulting rate = 11000.000000\n";
 
     size_t size = strlen(expected) + 1;
     char out[size];
@@ -440,7 +442,7 @@ TEST(ArraySuite, TestShowList) {
     arr.array[1] = second;
     arr.array[2] = third;
 
-    char* expected = (char*)"Список обменных курсов:\n"
+    char* expected = (char*)"List of exchange rates:\n"
                             "  1)       alf | RUB ---> USD: 100.000000\n"
                             "  2)      sber | EUR ---> USD: 1.100000\n"
                             "  3)      tink | RUB ---> EUR: 100.000000\n";
@@ -513,16 +515,16 @@ TEST(ArraySuite, TestFindRateWithWay) {
     char* in = (char*)"1\n4\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Список валют из которых можно перевести:\n"
+    char* expected = (char*)"List of currencies from which you can transfer:\n"
                             "  1) RUB\n  2) USD\n  3) RUB\n  4) USD\n\n"
-                            "Выберите номер валюты:\n"
-                            "Список валют в которые можно перевести:\n"
+                            "Choose number of currency:\n"
+                            "List of currencies that can be converted to:\n"
                             "  1) USD\n  2) EUR\n  3) JPY\n  4) EUR\n\n"
-                            "Выберите номер валюты:\n"
-                            "Список обменных курсов:\n"
+                            "Choose number of currency:\n"
+                            "List of exchange rates:\n"
                             "  1)       alf | RUB ---> USD: 100.000000\n"
                             "  2)       alf | USD ---> EUR: 1.000000\n"
-                            "Результирующий курс = 100.000000\n";
+                            "Resulting rate = 100.000000\n";
 
     size_t size = strlen(expected);
     char out[size];
@@ -553,13 +555,13 @@ TEST(ArraySuite, TestFindRateWithoutWay) {
     char* in = (char*)"1\n4\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Список валют из которых можно перевести:\n"
+    char* expected = (char*)"List of currencies from which you can transfer:\n"
                             "  1) RUB\n  2) USD\n  3) RUB\n  4) USD\n\n"
-                            "Выберите номер валюты:\n"
-                            "Список валют в которые можно перевести:\n"
+                            "Choose number of currency:\n"
+                            "List of currencies that can be converted to:\n"
                             "  1) JPY\n  2) RUB\n  3) JPY\n  4) EUR\n\n"
-                            "Выберите номер валюты:\n"
-                            "Нет вариантов для перевода.\n";
+                            "Choose number of currency:\n"
+                            "No variants to exchange.\n";
     size_t size = strlen(expected);
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
@@ -586,16 +588,16 @@ TEST(ArraySuite, TestFindRateWithDifferentWays) {
     char* in = (char*)"1\n2\n";
     FILE* istream = fmemopen(in, strlen(in), "r");
 
-    char* expected = (char*)"Список валют из которых можно перевести:\n"
+    char* expected = (char*)"List of currencies from which you can transfer:\n"
                             "  1) EUR\n  2) USD\n  3) EUR\n\n"
-                            "Выберите номер валюты:\n"
-                            "Список валют в которые можно перевести:\n"
+                            "Choose number of currency:\n"
+                            "List of currencies that can be converted to:\n"
                             "  1) USD\n  2) RUB\n  3) USD\n\n"
-                            "Выберите номер валюты:\n"
-                            "Список обменных курсов:\n"
+                            "Choose number of currency:\n"
+                            "List of exchange rates:\n"
                             "  1)      tink | EUR ---> USD: 90.000000\n"
                             "  2)      sber | USD ---> RUB: 1.100000\n"
-                            "Результирующий курс = 99.000000\n";
+                            "Resulting rate = 99.000000\n";
     size_t size = strlen(expected);
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
