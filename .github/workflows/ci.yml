@@ -3,8 +3,12 @@ on:
     branches:
       - homework_1
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  build_and_test_and_linters:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -12,7 +16,6 @@ jobs:
         run: |
           sudo apt update
           sudo apt install valgrind
-          sudo apt install cppcheck
           git clone https://github.com/google/googletest.git -b release-1.11.0
           cd googletest
           mkdir build
@@ -25,10 +28,18 @@ jobs:
         run: |
           cmake CMakeLists.txt
           make
-      - name: Static analizer
-        run: |
-          cppcheck --inconclusive --enable=all --language=c ./main.c ./array_of_rates.c ./exchange_rate.c
-          cppcheck --inconclusive --enable=all --language=cpp ./tests.cpp
       - name: Testing
         run: |
           valgrind --tool=memcheck --leak-check=full ./tests
+  linters_and_formaters:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@2
+      - name: Installing
+        run: |
+          sudo apt update
+          sudo apt install cppcheck
+          sudo apt install clang-format
+          pip install cpplint
+      - name: Formating
+        run: ./scripts/formating.sh
