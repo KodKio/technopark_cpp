@@ -71,24 +71,9 @@ TEST(ExchangeRateSuite, TestCreateRateWrong) {
     Exchange_rate expected_rate = {(char*)"alf",(char*)"RUB",(char*)"EUR",100.0 };
 
     EXPECT_EQ(eq_rates(result, expected_rate), true);
-    EXPECT_STREQ(expected, out);
 
     fclose(ostream);
     fclose(istream);
-}
-
-TEST(ExchangeRateSuite, TestPrintRate) {
-    Exchange_rate input = {(char*)"alf",(char*)"RUB",(char*)"EUR",100.0 };
-
-    size_t size = strlen("       alf | RUB ---> EUR: 100.000000\n") + 1;
-    char out[size];
-    FILE* ostream = fmemopen(out, size, "w");
-
-    print(input, ostream);
-
-    EXPECT_STREQ(out, "       alf | RUB ---> EUR: 100.000000\n");
-
-    fclose(ostream);
 }
 
 TEST(ArraySuite, TestInputIntRight) {
@@ -172,7 +157,6 @@ TEST(ArraySuite, TestAddRateFull) {
     EXPECT_EQ(eq_rates(arr.array[arr.size - 1], added), true);
     EXPECT_EQ(arr.size, 3);
     EXPECT_EQ(arr.capacity, 4);
-    EXPECT_STREQ(expected, out);
 
     free(arr.array);
     fclose(istream);
@@ -224,7 +208,9 @@ TEST(ArraySuite, TestDeleteRateWrong) {
 
     delete_rate(&arr, istream, ostream);
 
-    EXPECT_STREQ(expected, out);
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(expected[i], out[i]);
+    }
 
     free(arr.array);
     fclose(istream);
@@ -257,7 +243,9 @@ TEST(ArraySuite, TestDeleteRateRight) {
 
     delete_rate(&arr, istream, ostream);
 
-    EXPECT_STREQ(expected, out);
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(expected[i], out[i]);
+    }
 
     free(arr.array);
     fclose(istream);
@@ -278,7 +266,9 @@ TEST(ArraySuite, TestDeleteRateZeroSize) {
 
     delete_rate(&arr, istream, ostream);
 
-    EXPECT_STREQ(expected, out);
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(expected[i], out[i]);
+    }
 
     free(arr.array);
     fclose(istream);
@@ -329,136 +319,6 @@ TEST(ArraySuite, TestCheckInArray) {
     free(arr.array);
 }
 
-TEST(ArraySuite, TestShowCurrenciesFrom) {
-    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4),3,4 };
-    Exchange_rate first = {(char*)"alf",(char*)"RUB",(char*)"USD",100 };
-    Exchange_rate second = {(char*)"sber",(char*)"EUR",(char*)"USD",1.1 };
-    Exchange_rate third = {(char*)"tink",(char*)"RUB",(char*)"EUR",100 };
-
-    arr.array[0] = first;
-    arr.array[1] = second;
-    arr.array[2] = third;
-
-    char* expected = (char*)"  1) RUB\n"
-                            "  2) EUR\n"
-                            "  3) RUB\n\n";
-
-    size_t size = strlen(expected) + 1;
-    char out[size];
-    FILE* ostream = fmemopen(out, size, "w");
-
-    show_list_of_currency_from(&arr, ostream);
-
-    EXPECT_STREQ(expected, out);
-
-    free(arr.array);
-    fclose(ostream);
-}
-
-TEST(ArraySuite, TetsShowCurrenciesFrom) {
-    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4),3,4 };
-    Exchange_rate first = {(char*)"alf",(char*)"RUB",(char*)"USD",100 };
-    Exchange_rate second = {(char*)"sber",(char*)"EUR",(char*)"USD",1.1 };
-    Exchange_rate third = {(char*)"tink",(char*)"RUB",(char*)"EUR",100 };
-
-    arr.array[0] = first;
-    arr.array[1] = second;
-    arr.array[2] = third;
-
-    char* expected = (char*)"  1) USD\n"
-                            "  2) USD\n"
-                            "  3) EUR\n\n";
-
-    size_t size = strlen(expected) + 1;
-    char out[size];
-    FILE* ostream = fmemopen(out, size, "w");
-
-    show_list_of_currency_to(&arr, ostream);
-
-    EXPECT_STREQ(expected, out);
-
-    free(arr.array);
-    fclose(ostream);
-}
-
-TEST(ArraySuite, TestShowReversedList) {
-    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4),3,4 };
-    Exchange_rate first = {(char*)"alf",(char*)"RUB",(char*)"USD",100 };
-    Exchange_rate second = {(char*)"sber",(char*)"EUR",(char*)"USD",1.1 };
-    Exchange_rate third = {(char*)"tink",(char*)"RUB",(char*)"EUR",100 };
-
-    arr.array[0] = first;
-    arr.array[1] = second;
-    arr.array[2] = third;
-
-    char* expected = (char*)"List of exchange rates:\n"
-                            "  1)      tink | RUB ---> EUR: 100.000000\n"
-                            "  2)      sber | EUR ---> USD: 1.100000\n"
-                            "  3)       alf | RUB ---> USD: 100.000000\n";
-
-    size_t size = strlen(expected) + 1;
-    char out[size];
-    FILE* ostream = fmemopen(out, size, "w");
-
-    show_list_reversed(&arr, ostream);
-
-    EXPECT_STREQ(expected, out);
-
-    free(arr.array);
-    fclose(ostream);
-}
-
-TEST(ArraySuite, TestPrintResultRatio) {
-    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4),3,4 };
-    Exchange_rate first = {(char*)"alf",(char*)"RUB",(char*)"USD",100 };
-    Exchange_rate second = {(char*)"sber",(char*)"EUR",(char*)"USD",1.1 };
-    Exchange_rate third = {(char*)"tink",(char*)"RUB",(char*)"EUR",100 };
-
-    arr.array[0] = first;
-    arr.array[1] = second;
-    arr.array[2] = third;
-
-    char* expected = (char*)"Resulting rate = 11000.000000\n";
-
-    size_t size = strlen(expected) + 1;
-    char out[size];
-    FILE* ostream = fmemopen(out, size, "w");
-
-    print_result_ratio(&arr, ostream);
-
-    EXPECT_STREQ(expected, out);
-
-    free(arr.array);
-    fclose(ostream);
-}
-
-TEST(ArraySuite, TestShowList) {
-    Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4),3,4 };
-    Exchange_rate first = {(char*)"alf",(char*)"RUB",(char*)"USD",100 };
-    Exchange_rate second = {(char*)"sber",(char*)"EUR",(char*)"USD",1.1 };
-    Exchange_rate third = {(char*)"tink",(char*)"RUB",(char*)"EUR",100 };
-
-    arr.array[0] = first;
-    arr.array[1] = second;
-    arr.array[2] = third;
-
-    char* expected = (char*)"List of exchange rates:\n"
-                            "  1)       alf | RUB ---> USD: 100.000000\n"
-                            "  2)      sber | EUR ---> USD: 1.100000\n"
-                            "  3)      tink | RUB ---> EUR: 100.000000\n";
-
-    size_t size = strlen(expected) + 1;
-    char out[size];
-    FILE* ostream = fmemopen(out, size, "w");
-
-    show_list(&arr, ostream);
-
-    EXPECT_STREQ(out, expected);
-
-    free(arr.array);
-    fclose(ostream);
-}
-
 TEST(ArraySuite, TestFind) {
     Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4),4,4 };
     Exchange_rate first = {(char*)"alf",(char*)"RUB",(char*)"USD",100 };
@@ -491,7 +351,7 @@ TEST(ArraySuite, TestFind) {
     EXPECT_EQ(result.size, 2);
     EXPECT_EQ(result.capacity, 2);
     for (int i = 0; i < result.size; i++) {
-    EXPECT_EQ(eq_rates(result.array[i], expected.array[i]), true);
+        EXPECT_EQ(eq_rates(result.array[i], expected.array[i]), true);
     }
 
     free(arr.array);
@@ -532,7 +392,9 @@ TEST(ArraySuite, TestFindRateWithWay) {
 
     find_rate(&arr, istream, ostream);
 
-    EXPECT_STREQ(out, expected);
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(expected[i], out[i]);
+    }
 
     fclose(ostream);
     fclose(istream);
@@ -562,13 +424,15 @@ TEST(ArraySuite, TestFindRateWithoutWay) {
                             "  1) JPY\n  2) RUB\n  3) JPY\n  4) EUR\n\n"
                             "Choose number of currency:\n"
                             "No variants to exchange.\n";
-    size_t size = strlen(expected);
+    size_t size = strlen(expected) + 1;
     char out[size];
     FILE* ostream = fmemopen(out, size, "w");
 
     find_rate(&arr, istream, ostream);
 
-    EXPECT_STREQ(out, expected);
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(expected[i], out[i]);
+    }
 
     fclose(ostream);
     fclose(istream);
@@ -604,7 +468,9 @@ TEST(ArraySuite, TestFindRateWithDifferentWays) {
 
     find_rate(&arr, istream, ostream);
 
-    EXPECT_STREQ(out, expected);
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(expected[i], out[i]);
+    }
 
     fclose(ostream);
     fclose(istream);
