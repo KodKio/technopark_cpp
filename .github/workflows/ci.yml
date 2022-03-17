@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build_and_test]
     steps:
-      - uses: actions/checkout@2
+      - uses: actions/checkout@v2
       - name: Installing
         run: |
           sudo apt update
@@ -44,3 +44,8 @@ jobs:
           pip install cpplint
       - name: Formating
         run: ./scripts/formating.sh
+      - name: Cppcheck
+        run: |
+          cppcheck --inconclusive --enable=all --language=c++ ./tests.cpp
+          cppcheck --inconclusive --enable=all --language=c ./main.c ./array_of_rates.c ./exchange_rate.c
+          
