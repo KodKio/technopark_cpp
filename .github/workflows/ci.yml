@@ -31,6 +31,8 @@ jobs:
       - name: Testing
         run: |
           valgrind --tool=memcheck --leak-check=full ./tests
+          lcov --directory . --capture --output-file ./code_coverage.xml
+          ls -al
   linters_and_formaters:
     runs-on: ubuntu-latest
     needs: [build_and_test]
