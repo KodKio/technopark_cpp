@@ -70,6 +70,6 @@ jobs:
       - name: Scan-build
         run: |
           scan-build make
-      -name : fbiner
+      - name : fbinfer
       - run: |
           infer run --compilation-database compile_commands.json
