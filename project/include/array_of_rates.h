@@ -19,24 +19,24 @@ int delete_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out);
 
 void delete_on_index(array_of_rates_t* arr_rates, int index);
 
-int find_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out);
+int find_rate(const array_of_rates_t* arr_rates, FILE* in, FILE* out);
 
-void show_list_of_currency_from(array_of_rates_t* arr_rates, FILE* out);
+void show_list_of_currency_from(const array_of_rates_t* arr_rates, FILE* out);
 
-void show_list_of_currency_to(array_of_rates_t* arr_rates, FILE* out);
+void show_list_of_currency_to(const array_of_rates_t* arr_rates, FILE* out);
 
 void find(array_of_rates_t* result, array_of_rates_t* colored,
-          array_of_rates_t* arr_rates, exchange_rate_t rate_from, char* to,
+          const array_of_rates_t* arr_rates, exchange_rate_t rate_from, const char* to,
           double now, double* min);
 
-bool check_in_array(exchange_rate_t rate, array_of_rates_t* array);
+bool check_in_array(exchange_rate_t rate, const array_of_rates_t* array);
 
-void copy_array_of_rates(array_of_rates_t* dest, array_of_rates_t* source);
+void copy_array_of_rates(array_of_rates_t* dest, const array_of_rates_t* source);
 
-void show_list_reversed(array_of_rates_t* arr_rates, FILE* out);
+void show_list_reversed(const array_of_rates_t* arr_rates, FILE* out);
 
-void print_result_ratio(array_of_rates_t* arr_rates, FILE* out);
+void print_result_ratio(const array_of_rates_t* arr_rates, FILE* out);
 
-int show_list(array_of_rates_t* arr_rates, FILE* out);
+int show_list(const array_of_rates_t* arr_rates, FILE* out);
 
 #endif  // PROJECT_INCLUDE_ARRAY_OF_RATES_H_

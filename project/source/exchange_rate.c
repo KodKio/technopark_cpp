@@ -55,12 +55,12 @@ exchange_rate_t create_rate(FILE* in, FILE* out) {
   return rate;
 }
 
-void print(exchange_rate_t rate, FILE* out) {
+void print(const exchange_rate_t rate, FILE* out) {
   fprintf(out, "%10s | %s ---> %s: %lf\n", rate.bank_name, rate.currency_from,
           rate.currency_to, rate.ratio);
 }
 
-bool eq_rates(exchange_rate_t rate1, exchange_rate_t rate2) {
+bool eq_rates(const exchange_rate_t rate1, const exchange_rate_t rate2) {
   int bn = strcmp(rate1.bank_name, rate2.bank_name);
   int cf = strcmp(rate1.currency_from, rate2.currency_from);
   int ct = strcmp(rate1.currency_to, rate2.currency_to);

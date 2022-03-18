@@ -16,7 +16,7 @@ void grow(array_of_rates_t* arr_rates) {
   }
 }
 
-int input_int(int l, int r, FILE* in, FILE* out) {
+int input_int(const int l, const int r, FILE* in, FILE* out) {
   char value[100];
   fscanf(in, "%99s", value);
   int number = (int)get_value(value);
@@ -78,7 +78,7 @@ void delete_on_index(array_of_rates_t* arr_rates, int index) {
   arr_rates->capacity = new_capacity;
 }
 
-int find_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out) {
+int find_rate(const array_of_rates_t* arr_rates, FILE* in, FILE* out) {
   if (arr_rates->size == 0) {
     return ERROR;
   }
@@ -133,7 +133,7 @@ int find_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out) {
 }
 
 void find(array_of_rates_t* result, array_of_rates_t* colored,
-          array_of_rates_t* arr_rates, exchange_rate_t rate_from, char* to,
+          const array_of_rates_t* arr_rates, exchange_rate_t rate_from, const char* to,
           double now, double* min) {
   if (strcmp(rate_from.currency_to, to) == 0) {
     if (now < *min) {
@@ -172,7 +172,7 @@ void find(array_of_rates_t* result, array_of_rates_t* colored,
   }
 }
 
-void copy_array_of_rates(array_of_rates_t* dest, array_of_rates_t* source) {
+void copy_array_of_rates(array_of_rates_t* dest, const array_of_rates_t* source) {
   dest->size = source->size;
   dest->capacity = source->capacity;
   dest->array = malloc(sizeof(exchange_rate_t) * dest->capacity);
@@ -181,7 +181,7 @@ void copy_array_of_rates(array_of_rates_t* dest, array_of_rates_t* source) {
   }
 }
 
-bool check_in_array(exchange_rate_t rate, array_of_rates_t* array) {
+bool check_in_array(exchange_rate_t rate, const array_of_rates_t* array) {
   for (int i = 0; i < array->size; i++) {
     if (eq_rates(rate, array->array[i])) {
       return true;
@@ -190,21 +190,21 @@ bool check_in_array(exchange_rate_t rate, array_of_rates_t* array) {
   return false;
 }
 
-void show_list_of_currency_from(array_of_rates_t* arr_rates, FILE* out) {
+void show_list_of_currency_from(const array_of_rates_t* arr_rates, FILE* out) {
   for (int i = 0; i < arr_rates->size; i++) {
     fprintf(out, "%3d) %s\n", i + 1, arr_rates->array[i].currency_from);
   }
   fprintf(out, "\n");
 }
 
-void show_list_of_currency_to(array_of_rates_t* arr_rates, FILE* out) {
+void show_list_of_currency_to(const array_of_rates_t* arr_rates, FILE* out) {
   for (int i = 0; i < arr_rates->size; i++) {
     fprintf(out, "%3d) %s\n", i + 1, arr_rates->array[i].currency_to);
   }
   fprintf(out, "\n");
 }
 
-void show_list_reversed(array_of_rates_t* arr_rates, FILE* out) {
+void show_list_reversed(const array_of_rates_t* arr_rates, FILE* out) {
   fprintf(out, "List of exchange rates:\n");
   for (int i = (int)arr_rates->size - 1, j = 0; i >= 0; i--, j++) {
     fprintf(out, "%3d)", j + 1);
@@ -212,7 +212,7 @@ void show_list_reversed(array_of_rates_t* arr_rates, FILE* out) {
   }
 }
 
-void print_result_ratio(array_of_rates_t* arr_rates, FILE* out) {
+void print_result_ratio(const array_of_rates_t* arr_rates, FILE* out) {
   double result = 1;
   for (int i = 0; i < arr_rates->size; i++) {
     result *= arr_rates->array[i].ratio;
@@ -220,7 +220,7 @@ void print_result_ratio(array_of_rates_t* arr_rates, FILE* out) {
   fprintf(out, "Resulting rate = %lf\n", result);
 }
 
-int show_list(array_of_rates_t* arr_rates, FILE* out) {
+int show_list(const array_of_rates_t* arr_rates, FILE* out) {
   if (arr_rates->size == 0) {
     return ERROR;
   }

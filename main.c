@@ -14,13 +14,13 @@ void run(FILE* in, FILE* out) {
   bool flag = true;
   while (flag) {
     fprintf(out,
-            "Возможные действия:\n"
-            "1. Добавить новый обменный курс\n"
-            "2. Удалить обменный курс\n"
-            "3. Поиск выгодного обмена\n"
-            "4. Показать список курсов\n"
-            "5. Выход\n\n");
-    fprintf(out, "Введите номер действия:\n");
+            "Possible actions:\n"
+            "1. Add a new exchange rate\n"
+            "2. Delete the exchange rate\n"
+            "3. Search for a profitable exchange\n"
+            "4. Show a list of courses\n"
+            "5. Exit\n\n");
+    fprintf(out, "Enter the action number:\n");
     int action_number = input_int(0, 5, in, out);
     if (action_number == 5) {
       flag = false;
@@ -35,7 +35,7 @@ void run(FILE* in, FILE* out) {
     }
     fprintf(out, "\n");
   }
-  printf("Пока!\n");
+  printf("Goodbye!\n");
 }
 
 void do_action(int number, array_of_rates_t* arr_rates, FILE* in, FILE* out) {
