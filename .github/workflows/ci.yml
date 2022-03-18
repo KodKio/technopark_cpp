@@ -34,7 +34,7 @@ jobs:
           cd ..
       - name: Testing
         run: |
-          valgrind --tool=memcheck --leak-check=full ./build/tests
+          valgrind --tool=memcheck --leak-check=full ./build/tests/test_exchange_rates
 #      - name: Upload coverage to Codecov
 #        uses: codecov/codecov-action@v2
 #        with:
@@ -73,8 +73,8 @@ jobs:
           ./scripts/formating.sh
       - name: Cppcheck
         run: |
-          cppcheck --inconclusive --enable=all --language=c++ ./tests.cpp
-          cppcheck --inconclusive --enable=all --language=c ./main.c ./array_of_rates.c ./exchange_rate.c
+          cppcheck --inconclusive --enable=all --language=c++ ./tests/tests.cpp
+          cppcheck --inconclusive --enable=all --language=c ./project/*.c ./main.c
       - name: Cpplint
         run: |
           cpplint --filter=-legal/copyright,-readability/casting,-whitespace/tab --linelength=110 ./main.c ./exchange_rate.c ./array_of_rates.c ./array_of_rates.h ./exchange_rate.h
