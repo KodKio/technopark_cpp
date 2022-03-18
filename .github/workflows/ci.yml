@@ -44,7 +44,7 @@ jobs:
           pip install cpplint
           pip install scan-build
           sudo chmod +x ./scripts/formating.sh
-          sudo chmod +x ./scripts/install_fbiner.sh
+          sudo chmod +x ./scripts/install_fbinfer.sh
           ./scripts/install_fbinfer.sh
           git clone https://github.com/google/googletest.git -b release-1.11.0
           cd googletest
