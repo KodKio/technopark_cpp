@@ -81,7 +81,7 @@ jobs:
           cppcheck --inconclusive --enable=all --language=c ./project/source/*.c ./main.c
       - name: Cpplint
         run: |
-          cpplint --filter=-legal/copyright,-readability/casting,-whitespace/tab --linelength=110 ./main.c ./project/source/*.c ./project/include/*.h
+          cpplint --filter=-legal/copyright,-readability/casting,-whitespace/tab,-build/include_subdir --linelength=110 ./main.c ./project/source/*.c ./project/include/*.h
       - name: Scan-build
         run: |
           cd build
