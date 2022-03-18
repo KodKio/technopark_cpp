@@ -44,8 +44,6 @@ jobs:
           pip install cpplint
           pip install scan-build
           sudo chmod +x ./scripts/formating.sh
-          sudo chmod +x ./scripts/install_fbinfer.sh
-          ./scripts/install_fbinfer.sh
           git clone https://github.com/google/googletest.git -b release-1.11.0
           cd googletest
           mkdir build
@@ -70,6 +68,3 @@ jobs:
       - name: Scan-build
         run: |
           scan-build make
-      - name : fbinfer
-        run: |
-          infer run --compilation-database compile_commands.json
