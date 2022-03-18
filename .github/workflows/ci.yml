@@ -42,7 +42,7 @@ jobs:
           sudo apt install cppcheck
           sudo apt install clang-format
           pip install cpplint
-          pip install scan-built
+          pip install scan-build
           sudo chmod +x ./scripts/formating.sh
           git clone https://github.com/google/googletest.git -b release-1.11.0
           cd googletest
