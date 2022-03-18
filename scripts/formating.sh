@@ -1,9 +1,9 @@
 #!/bin/bash
 
 STYLE="Google"
-FORMATING_FILES=("./main.c" "./exchange_rates.c" \
-                 "./exchange_rates.h" "./array_of_rates.h" \
-                 "./array_of_rates.c" "./tests.cpp")
+FORMATING_FILES=("./project/source/main.c" "./project/source/exchange_rates.c" \
+                 "./project/include/exchange_rates.h" "./project/include/array_of_rates.h" \
+                 "./project/source/array_of_rates.c" "./tests/tests.cpp")
 
 TMP_DIR="./tmp"
 LOG_FILE="./tmp/clang-formating.log"
