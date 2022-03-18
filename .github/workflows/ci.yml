@@ -71,5 +71,5 @@ jobs:
         run: |
           scan-build make
       - name : fbinfer
-      - run: |
+        run: |
           infer run --compilation-database compile_commands.json
