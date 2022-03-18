@@ -80,4 +80,5 @@ jobs:
           cpplint --filter=-legal/copyright,-readability/casting,-whitespace/tab --linelength=110 ./main.c ./exchange_rate.c ./array_of_rates.c ./array_of_rates.h ./exchange_rate.h
       - name: Scan-build
         run: |
+          ls -al
           scan-build ./build/make
