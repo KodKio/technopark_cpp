@@ -15,6 +15,6 @@ touch $TMP_FORM_FILE
 for file in ${FORMATING_FILES[*]}
 do
     echo $file
-    clang-format -style=$STYLE $file > $TMP_FORM_FILE
+    clang-format -i -style=$STYLE $file > $TMP_FORM_FILE
     diff $file $TMP_FORM_FILE
 done

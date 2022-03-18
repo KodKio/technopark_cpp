@@ -1,21 +1,18 @@
 #ifndef EXCHANGE_RATE_H_
 #define EXCHANGE_RATE_H_
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
-enum {
-    ERROR = 0,
-    SUCCESS
-};
+enum { ERROR = 0, SUCCESS };
 
 typedef struct Exchange_rate {
-    char* bank_name;
-    char* currency_from;
-    char* currency_to;
-    double ratio;
+  char* bank_name;
+  char* currency_from;
+  char* currency_to;
+  double ratio;
 } Exchange_rate;
 
 double get_value(const char* str);
