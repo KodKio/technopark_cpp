@@ -1,4 +1,6 @@
-#include "project/include/array_of_rates.h"
+#include <stdlib.h>
+
+#include "array_of_rates.h"
 
 void run(FILE* in, FILE* out);
 

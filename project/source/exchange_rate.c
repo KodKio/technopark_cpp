@@ -1,4 +1,7 @@
-#include "../include/exchange_rate.h"
+#include "exchange_rate.h"
+
+#include <stdlib.h>
+#include <string.h>
 
 double get_value(const char* str) {
   char* ptr;

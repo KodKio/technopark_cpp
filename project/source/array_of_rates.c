@@ -1,4 +1,7 @@
-#include "../include/array_of_rates.h"
+#include "array_of_rates.h"
+
+#include <stdlib.h>
+#include <string.h>
 
 void grow(array_of_rates_t* arr_rates) {
   if (arr_rates->size == 0) {

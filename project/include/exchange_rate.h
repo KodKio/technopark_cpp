@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 enum { ERROR = 0, SUCCESS };
 
