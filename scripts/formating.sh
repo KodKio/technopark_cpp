@@ -15,6 +15,5 @@ FORMATING_FILES=("./main.c" "./exchange_rates.c" \
 for file in ${FORMATING_FILES[*]}
 do
     echo $file
-    clang-format -style=$STYLE $file > $TMP_FORM_FILE || (echo "Error, check $LOG_FILE")
-    diff $file $TMP_FORM_FILE
+    clang-format -i -style=$STYLE $file > $TMP_FORM_FILE || (echo "Error, check $LOG_FILE")
 done

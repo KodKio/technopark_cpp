@@ -1,5 +1,5 @@
-#ifndef TECHNOPARK_CPP_EXCHANGE_RATE_H
-#define TECHNOPARK_CPP_EXCHANGE_RATE_H
+#ifndef EXCHANGE_RATE_H_
+#define EXCHANGE_RATE_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,4 +26,4 @@ void print(Exchange_rate rate, FILE* out);
 
 bool eq_rates(Exchange_rate rate1, Exchange_rate rate2);
 
-#endif //TECHNOPARK_CPP_EXCHANGE_RATE_H
+#endif  // EXCHANGE_RATE_H_

@@ -1,4 +1,4 @@
-#include "exchange_rate.h"
+#include "./exchange_rate.h"
 
 double get_value(const char* str) {
     char *ptr;
@@ -26,7 +26,8 @@ Exchange_rate create_rate(FILE* in, FILE* out) {
     strncpy(currency_from, tmp, 3);
     currency_from[3] = '\0';
 
-    fprintf(out, "Enter the currency to which the transfer will be made (the length of the name is no more than 3):\n");
+    fprintf(out, "Enter the currency to which the transfer will be made "
+                 "(the length of the name is no more than 3):\n");
     fscanf(in, "%99s", tmp);
     strncpy(currency_to, tmp, 4);
     currency_to[3] = '\0';
@@ -44,16 +45,17 @@ Exchange_rate create_rate(FILE* in, FILE* out) {
     rate.bank_name = malloc(strlen(bank_name) + 1);
     rate.currency_from = malloc(strlen(currency_from) + 1);
     rate.currency_to = malloc(strlen(currency_to) + 1);
-    strcpy(rate.bank_name, bank_name);
-    strcpy(rate.currency_from, currency_from);
-    strcpy(rate.currency_to, currency_to);
+    snprintf(rate.bank_name, strlen(bank_name) + 1, "%s", bank_name);
+    snprintf(rate.currency_from, strlen(currency_from) + 1, "%s", currency_from);
+    snprintf(rate.currency_to, strlen(currency_to) + 1, "%s", currency_to);
     rate.ratio = ratio;
 
     return rate;
 }
 
 void print(Exchange_rate rate, FILE* out) {
-    fprintf(out, "%10s | %s ---> %s: %lf\n", rate.bank_name, rate.currency_from, rate.currency_to, rate.ratio);
+    fprintf(out, "%10s | %s ---> %s: %lf\n", rate.bank_name, rate.currency_from,
+            rate.currency_to, rate.ratio);
 }
 
 bool eq_rates(Exchange_rate rate1, Exchange_rate rate2) {
