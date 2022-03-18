@@ -42,7 +42,19 @@ jobs:
           sudo apt install cppcheck
           sudo apt install clang-format
           pip install cpplint
+          pip install scan-built
           sudo chmod +x ./scripts/formating.sh
+          git clone https://github.com/google/googletest.git -b release-1.11.0
+          cd googletest
+          mkdir build
+          cd build
+          cmake .. -DBUILD_GMOCK=OFF
+          make
+          sudo make install
+          cd ../..
+      - name: Building
+        run: |
+          cmake CMakeLists.txt
       - name: Formating
         run: ./scripts/formating.sh
       - name: Cppcheck
@@ -51,4 +63,7 @@ jobs:
           cppcheck --inconclusive --enable=all --language=c ./main.c ./array_of_rates.c ./exchange_rate.c
       - name: Cpplint
         run: |
-          cpplint --recursive --filter=-legal/copyright,-readability/casting,-whitespace/tab --linelength=110 ./main.c ./exchange_rate.c ./array_of_rates.c ./array_of_rates.h ./exchange_rate.h
+          cpplint --filter=-legal/copyright,-readability/casting,-whitespace/tab --linelength=110 ./main.c ./exchange_rate.c ./array_of_rates.c ./array_of_rates.h ./exchange_rate.h
+      - name: Scan-build
+        run: |
+          scan-build make
