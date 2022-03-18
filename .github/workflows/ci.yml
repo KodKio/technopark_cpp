@@ -28,13 +28,14 @@ jobs:
           cd ../..
       - name: Building
         run: |
-          cmake CMakeLists.txt
+          mkdir build
+          cd build
+          cmake ../CMakeLists.txt
           make
       - name: Testing
         run: |
-          valgrind --tool=memcheck --leak-check=full ./tests
-          ctest
-          gcovr . -o "code_coverage.xml" --xml
+          valgrind --tool=memcheck --leak-check=full build/tests
+          gcovr ./tests -o "code_coverage.xml" --xml
           ls -al
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
@@ -64,7 +65,10 @@ jobs:
           cd ../..
       - name: Building
         run: |
-          cmake CMakeLists.txt
+          mkdir build
+          cd build
+          cmake ../CMakeLists.txt
+          make
       - name: Formating
         run: |
           ./scripts/formating.sh
