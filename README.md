@@ -1,5 +1,7 @@
 # technopark_cpp
 
+[![codecov](https://codecov.io/gh/KodKio/technopark_cpp/branch/master/graph/badge.svg?token=WIOT1V91VL)](https://codecov.io/gh/KodKio/technopark_cpp)
+
 # Домашнее задание №1: ИЗ №1
 
 ## Задание
