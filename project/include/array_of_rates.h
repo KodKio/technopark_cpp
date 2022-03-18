@@ -1,7 +1,7 @@
-#ifndef ARRAY_OF_RATES_H_
-#define ARRAY_OF_RATES_H_
+#ifndef PROJECT_INCLUDE_ARRAY_OF_RATES_H_
+#define PROJECT_INCLUDE_ARRAY_OF_RATES_H_
 
-#include "exchange_rate.h"
+#include "./exchange_rate.h"
 
 typedef struct Array_of_rates {
   Exchange_rate* array;
@@ -39,4 +39,4 @@ void print_result_ratio(Array_of_rates* arr_rates, FILE* out);
 
 int show_list(Array_of_rates* arr_rates, FILE* out);
 
-#endif  // ARRAY_OF_RATES_H_
+#endif  // PROJECT_INCLUDE_ARRAY_OF_RATES_H_

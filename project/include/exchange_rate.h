@@ -1,5 +1,5 @@
-#ifndef EXCHANGE_RATE_H_
-#define EXCHANGE_RATE_H_
+#ifndef PROJECT_INCLUDE_EXCHANGE_RATE_H_
+#define PROJECT_INCLUDE_EXCHANGE_RATE_H_
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -23,4 +23,4 @@ void print(Exchange_rate rate, FILE* out);
 
 bool eq_rates(Exchange_rate rate1, Exchange_rate rate2);
 
-#endif  // EXCHANGE_RATE_H_
+#endif  // PROJECT_INCLUDE_EXCHANGE_RATE_H_
