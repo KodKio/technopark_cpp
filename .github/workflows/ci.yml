@@ -33,6 +33,7 @@ jobs:
         run: |
           valgrind --tool=memcheck --leak-check=full ./tests
           gcov . -o ./code_coverage.xml
+          ls -al
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
