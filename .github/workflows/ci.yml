@@ -37,10 +37,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: 78688142-4057-47ea-8c80-46a22c531a0a
-          directory: .
           files: ./code_coverage.xml
-          name: codecov-umbrella
-          path_to_write_report: ./coverage/codecov_report.txt
   linters_and_formaters:
     runs-on: ubuntu-latest
     needs: [build_and_test]
