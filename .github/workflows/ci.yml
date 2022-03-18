@@ -68,7 +68,7 @@ jobs:
           cmake ..
           make
           cd ..
-      - name: Formating
+      - name: Check format
         run: |
           ./scripts/formating.sh
       - name: Cppcheck

@@ -1,14 +1,11 @@
-cmake_minimum_required(VERSION 3.21)
-project(Exchange_rates)
+cmake_minimum_required(VERSION 3.0.0)
+project(exchange_rates)
 
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++0x -Wall -ggdb3")
+add_subdirectory(project)
 
-enable_testing()
-find_package(GTest REQUIRED)
+add_executable(${PROJECT_NAME} main.c)
 
-add_executable(exchange_rates main.c array_of_rates.c exchange_rate.c)
+target_include_directories(${PROJECT_NAME} PUBLIC ${EXCHANGE_RATES_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${EXCHANGE_RATES_LIBRARIES})
 
-include_directories(${GTEST_INCLUDE_DIRS})
-add_executable(tests tests.cpp array_of_rates.c exchange_rate.c)
-target_link_libraries(tests ${GTEST_LIBRARIES} m pthread)
+add_subdirectory(tests)

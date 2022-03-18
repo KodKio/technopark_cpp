@@ -1,7 +1,7 @@
 #ifndef ARRAY_OF_RATES_H_
 #define ARRAY_OF_RATES_H_
 
-#include "./exchange_rate.h"
+#include "exchange_rate.h"
 
 typedef struct Array_of_rates {
   Exchange_rate* array;
