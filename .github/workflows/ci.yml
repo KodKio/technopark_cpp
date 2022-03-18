@@ -33,7 +33,8 @@ jobs:
       - name: Testing
         run: |
           valgrind --tool=memcheck --leak-check=full ./tests
-          gcovr . -e "tests.cpp|main.c" -o "code_coverage.xml" --xml
+          ctest
+          gcovr . -o "code_coverage.xml" --xml
           ls -al
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
