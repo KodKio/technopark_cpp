@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
 extern "C" {
-    #include "../project/include/array_of_rates.h"
-    #include "../project/include/exchange_rate.h"
+  #include "../project/include/array_of_rates.h"
+  #include "../project/include/exchange_rate.h"
 }
 
 TEST(ExchangeRateSuite, TestGetValue) {
