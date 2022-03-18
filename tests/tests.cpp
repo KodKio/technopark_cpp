@@ -16,15 +16,15 @@ TEST(ExchangeRateSuite, TestGetValue) {
 }
 
 TEST(ExchangeRateSuite, TestEqRates) {
-  Exchange_rate input = {(char*)"sber", (char*)"EUR", (char*)"USD", 100};
-  Exchange_rate rate1 = {(char*)"sber", (char*)"EUR", (char*)"USD", 100};
+  exchange_rate_t input = {(char*)"sber", (char*)"EUR", (char*)"USD", 100};
+  exchange_rate_t rate1 = {(char*)"sber", (char*)"EUR", (char*)"USD", 100};
 
   EXPECT_EQ(eq_rates(input, rate1), true);
 }
 
 TEST(ExchangeRateSuite, TestEqRatesNegative) {
-  Exchange_rate input = {(char*)"sber", (char*)"EUR", (char*)"USD", 100};
-  Exchange_rate rate1 = {(char*)"alf", (char*)"EUR", (char*)"USD", 100};
+  exchange_rate_t input = {(char*)"sber", (char*)"EUR", (char*)"USD", 100};
+  exchange_rate_t rate1 = {(char*)"alf", (char*)"EUR", (char*)"USD", 100};
 
   EXPECT_EQ(eq_rates(input, rate1), false);
 }
@@ -42,9 +42,9 @@ TEST(ExchangeRateSuite, TestCreateRateRight) {
   char* out = (char*)malloc(size);
   FILE* ostream = fmemopen(out, size, "w");
 
-  Exchange_rate result = create_rate(istream, ostream);
-  Exchange_rate expected_rate = {(char*)"alf", (char*)"RUB", (char*)"EUR",
-                                 100.0};
+  exchange_rate_t result = create_rate(istream, ostream);
+  exchange_rate_t expected_rate = {(char*)"alf", (char*)"RUB", (char*)"EUR",
+                                   100.0};
 
   EXPECT_EQ(eq_rates(result, expected_rate), true);
 
@@ -68,10 +68,10 @@ TEST(ExchangeRateSuite, TestCreateRateWrong) {
   char* out = (char*)malloc(size);
   FILE* ostream = fmemopen(out, size, "w");
 
-  Exchange_rate result = create_rate(istream, ostream);
+  exchange_rate_t result = create_rate(istream, ostream);
 
-  Exchange_rate expected_rate = {(char*)"alf", (char*)"RUB", (char*)"EUR",
-                                 100.0};
+  exchange_rate_t expected_rate = {(char*)"alf", (char*)"RUB", (char*)"EUR",
+                                   100.0};
 
   EXPECT_EQ(eq_rates(result, expected_rate), true);
 
@@ -108,10 +108,10 @@ TEST(ArraySuite, TestInputIntWrong) {
 }
 
 TEST(ArraySuite, TestGrowNotNull) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 2), 2,
-                        2};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 2), 2,
+                          2};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
 
   arr.array[0] = first;
   arr.array[1] = second;
@@ -124,7 +124,7 @@ TEST(ArraySuite, TestGrowNotNull) {
 }
 
 TEST(ArraySuite, TestGrowNull) {
-  Array_of_rates arr = {nullptr, 0, 0};
+  array_of_rates_t arr = {nullptr, 0, 0};
   grow(&arr);
 
   EXPECT_EQ(arr.capacity, 1);
@@ -133,15 +133,15 @@ TEST(ArraySuite, TestGrowNull) {
 }
 
 TEST(ArraySuite, TestAddRateFull) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 2), 2,
-                        2};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 2), 2,
+                          2};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
 
   arr.array[0] = first;
   arr.array[1] = second;
 
-  Exchange_rate added = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
+  exchange_rate_t added = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
 
   char* in = (char*)"tink\nRUB\nEUR\n100\n";
   FILE* istream = fmemopen(in, strlen(in), "r");
@@ -171,11 +171,11 @@ TEST(ArraySuite, TestAddRateFull) {
 }
 
 TEST(ArraySuite, TestDeleteOnIndex) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 3,
-                        4};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 3,
+                          4};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
 
   arr.array[0] = first;
   arr.array[1] = second;
@@ -190,11 +190,11 @@ TEST(ArraySuite, TestDeleteOnIndex) {
 }
 
 TEST(ArraySuite, TestDeleteRateWrongInput) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 3,
-                        4};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 3,
+                          4};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
 
   arr.array[0] = first;
   arr.array[1] = second;
@@ -221,11 +221,11 @@ TEST(ArraySuite, TestDeleteRateWrongInput) {
 }
 
 TEST(ArraySuite, TestDeleteRateRight) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 3,
-                        4};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 3,
+                          4};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
 
   arr.array[0] = first;
   arr.array[1] = second;
@@ -251,7 +251,7 @@ TEST(ArraySuite, TestDeleteRateRight) {
 }
 
 TEST(ArraySuite, TestDeleteRateZeroSize) {
-  Array_of_rates arr = {nullptr, 0, 0};
+  array_of_rates_t arr = {nullptr, 0, 0};
 
   char* in = (char*)"1\n";
   FILE* istream = fmemopen(in, strlen(in), "r");
@@ -268,17 +268,17 @@ TEST(ArraySuite, TestDeleteRateZeroSize) {
 }
 
 TEST(ArraySuite, TestCopyArray) {
-  Array_of_rates source = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 3,
-                           4};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
+  array_of_rates_t source = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 3,
+                             4};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
 
   source.array[0] = first;
   source.array[1] = second;
   source.array[2] = third;
 
-  Array_of_rates dest = {nullptr, 0, 0};
+  array_of_rates_t dest = {nullptr, 0, 0};
 
   copy_array_of_rates(&dest, &source);
 
@@ -294,18 +294,18 @@ TEST(ArraySuite, TestCopyArray) {
 }
 
 TEST(ArraySuite, TestCheckInArray) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 3,
-                        4};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 3,
+                          4};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"RUB", (char*)"EUR", 100};
 
   arr.array[0] = first;
   arr.array[1] = second;
   arr.array[2] = third;
 
-  Exchange_rate input1 = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
-  Exchange_rate input2 = {(char*)"sber", (char*)"EUR", (char*)"USD", 99};
+  exchange_rate_t input1 = {(char*)"sber", (char*)"EUR", (char*)"USD", 1.1};
+  exchange_rate_t input2 = {(char*)"sber", (char*)"EUR", (char*)"USD", 99};
 
   EXPECT_EQ(check_in_array(input1, &arr), true);
   EXPECT_EQ(check_in_array(input2, &arr), false);
@@ -314,12 +314,12 @@ TEST(ArraySuite, TestCheckInArray) {
 }
 
 TEST(ArraySuite, TestFind) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 4,
-                        4};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"USD", (char*)"EUR", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"RUB", (char*)"JPY", 100};
-  Exchange_rate fourth = {(char*)"alf", (char*)"USD", (char*)"EUR", 1};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 4,
+                          4};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"USD", (char*)"EUR", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"RUB", (char*)"JPY", 100};
+  exchange_rate_t fourth = {(char*)"alf", (char*)"USD", (char*)"EUR", 1};
 
   arr.array[0] = first;
   arr.array[1] = second;
@@ -327,19 +327,19 @@ TEST(ArraySuite, TestFind) {
   arr.array[3] = fourth;
 
   char* currency_to = (char*)"EUR";
-  Array_of_rates result = {nullptr, 0, 0};
-  Array_of_rates colored = {
-      (Exchange_rate*)malloc(sizeof(Exchange_rate) * arr.size), 0,
-      arr.capacity};
+  array_of_rates_t result = {nullptr, 0, 0};
+  array_of_rates_t colored = {
+          (exchange_rate_t*)malloc(sizeof(exchange_rate_t) * arr.size), 0,
+          arr.capacity};
   colored.array[0] = arr.array[0];
   colored.size = 1;
   double min = 100000;
-  Exchange_rate rate_from = arr.array[0];
+  exchange_rate_t rate_from = arr.array[0];
 
   find(&result, &colored, &arr, rate_from, currency_to, 1, &min);
 
-  Array_of_rates expected = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 2),
-                             2, 2};
+  array_of_rates_t expected = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 2),
+                               2, 2};
   second = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
   first = {(char*)"alf", (char*)"USD", (char*)"EUR", 1};
 
@@ -359,12 +359,12 @@ TEST(ArraySuite, TestFind) {
 }
 
 TEST(ArraySuite, TestFindRateWithWay) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 4,
-                        4};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"USD", (char*)"EUR", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"RUB", (char*)"JPY", 100};
-  Exchange_rate fourth = {(char*)"alf", (char*)"USD", (char*)"EUR", 1};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 4,
+                          4};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"USD", (char*)"EUR", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"RUB", (char*)"JPY", 100};
+  exchange_rate_t fourth = {(char*)"alf", (char*)"USD", (char*)"EUR", 1};
 
   arr.array[0] = first;
   arr.array[1] = second;
@@ -395,12 +395,12 @@ TEST(ArraySuite, TestFindRateWithWay) {
 }
 
 TEST(ArraySuite, TestFindRateWithoutWay) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 4,
-                        4};
-  Exchange_rate first = {(char*)"alf", (char*)"RUB", (char*)"JPY", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"USD", (char*)"RUB", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"RUB", (char*)"JPY", 100};
-  Exchange_rate fourth = {(char*)"alf", (char*)"USD", (char*)"EUR", 1};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 4,
+                          4};
+  exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"JPY", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"USD", (char*)"RUB", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"RUB", (char*)"JPY", 100};
+  exchange_rate_t fourth = {(char*)"alf", (char*)"USD", (char*)"EUR", 1};
 
   arr.array[0] = first;
   arr.array[1] = second;
@@ -427,11 +427,11 @@ TEST(ArraySuite, TestFindRateWithoutWay) {
 }
 
 TEST(ArraySuite, TestFindRateWithDifferentWays) {
-  Array_of_rates arr = {(Exchange_rate*)malloc(sizeof(Exchange_rate) * 4), 3,
-                        4};
-  Exchange_rate first = {(char*)"alf", (char*)"EUR", (char*)"USD", 100};
-  Exchange_rate second = {(char*)"sber", (char*)"USD", (char*)"RUB", 1.1};
-  Exchange_rate third = {(char*)"tink", (char*)"EUR", (char*)"USD", 90};
+  array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 3,
+                          4};
+  exchange_rate_t first = {(char*)"alf", (char*)"EUR", (char*)"USD", 100};
+  exchange_rate_t second = {(char*)"sber", (char*)"USD", (char*)"RUB", 1.1};
+  exchange_rate_t third = {(char*)"tink", (char*)"EUR", (char*)"USD", 90};
 
   arr.array[0] = first;
   arr.array[1] = second;

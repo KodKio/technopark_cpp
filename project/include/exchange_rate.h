@@ -8,19 +8,19 @@
 
 enum { ERROR = 0, SUCCESS };
 
-typedef struct Exchange_rate {
+typedef struct exchange_rate {
   char* bank_name;
   char* currency_from;
   char* currency_to;
   double ratio;
-} Exchange_rate;
+} exchange_rate_t;
 
 double get_value(const char* str);
 
-Exchange_rate create_rate(FILE* in, FILE* out);
+exchange_rate_t create_rate(FILE* in, FILE* out);
 
-void print(Exchange_rate rate, FILE* out);
+void print(exchange_rate_t rate, FILE* out);
 
-bool eq_rates(Exchange_rate rate1, Exchange_rate rate2);
+bool eq_rates(exchange_rate_t rate1, exchange_rate_t rate2);
 
 #endif  // PROJECT_INCLUDE_EXCHANGE_RATE_H_

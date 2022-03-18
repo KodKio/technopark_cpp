@@ -3,40 +3,40 @@
 
 #include "./exchange_rate.h"
 
-typedef struct Array_of_rates {
-  Exchange_rate* array;
+typedef struct array_of_rates {
+  exchange_rate_t* array;
   size_t size;
   size_t capacity;
-} Array_of_rates;
+} array_of_rates_t;
 
-void grow(Array_of_rates* arr_rates);
+void grow(array_of_rates_t* arr_rates);
 
 int input_int(int l, int r, FILE* in, FILE* out);
 
-void add_rate(Array_of_rates* arr_rates, FILE* in, FILE* out);
+void add_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out);
 
-int delete_rate(Array_of_rates* arr_rates, FILE* in, FILE* out);
+int delete_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out);
 
-void delete_on_index(Array_of_rates* arr_rates, int index);
+void delete_on_index(array_of_rates_t* arr_rates, int index);
 
-int find_rate(Array_of_rates* arr_rates, FILE* in, FILE* out);
+int find_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out);
 
-void show_list_of_currency_from(Array_of_rates* arr_rates, FILE* out);
+void show_list_of_currency_from(array_of_rates_t* arr_rates, FILE* out);
 
-void show_list_of_currency_to(Array_of_rates* arr_rates, FILE* out);
+void show_list_of_currency_to(array_of_rates_t* arr_rates, FILE* out);
 
-void find(Array_of_rates* result, Array_of_rates* colored,
-          Array_of_rates* arr_rates, Exchange_rate rate_from, char* to,
+void find(array_of_rates_t* result, array_of_rates_t* colored,
+          array_of_rates_t* arr_rates, exchange_rate_t rate_from, char* to,
           double now, double* min);
 
-bool check_in_array(Exchange_rate rate, Array_of_rates* array);
+bool check_in_array(exchange_rate_t rate, array_of_rates_t* array);
 
-void copy_array_of_rates(Array_of_rates* dest, Array_of_rates* source);
+void copy_array_of_rates(array_of_rates_t* dest, array_of_rates_t* source);
 
-void show_list_reversed(Array_of_rates* arr_rates, FILE* out);
+void show_list_reversed(array_of_rates_t* arr_rates, FILE* out);
 
-void print_result_ratio(Array_of_rates* arr_rates, FILE* out);
+void print_result_ratio(array_of_rates_t* arr_rates, FILE* out);
 
-int show_list(Array_of_rates* arr_rates, FILE* out);
+int show_list(array_of_rates_t* arr_rates, FILE* out);
 
 #endif  // PROJECT_INCLUDE_ARRAY_OF_RATES_H_

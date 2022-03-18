@@ -10,7 +10,7 @@ double get_value(const char* str) {
   return value;
 }
 
-Exchange_rate create_rate(FILE* in, FILE* out) {
+exchange_rate_t create_rate(FILE* in, FILE* out) {
   char bank_name[100];
   char currency_from[4];
   char currency_to[4];
@@ -43,7 +43,7 @@ Exchange_rate create_rate(FILE* in, FILE* out) {
     ratio = get_value(value_str);
   }
 
-  Exchange_rate rate;
+  exchange_rate_t rate;
   rate.bank_name = malloc(strlen(bank_name) + 1);
   rate.currency_from = malloc(strlen(currency_from) + 1);
   rate.currency_to = malloc(strlen(currency_to) + 1);
@@ -55,12 +55,12 @@ Exchange_rate create_rate(FILE* in, FILE* out) {
   return rate;
 }
 
-void print(Exchange_rate rate, FILE* out) {
+void print(exchange_rate_t rate, FILE* out) {
   fprintf(out, "%10s | %s ---> %s: %lf\n", rate.bank_name, rate.currency_from,
           rate.currency_to, rate.ratio);
 }
 
-bool eq_rates(Exchange_rate rate1, Exchange_rate rate2) {
+bool eq_rates(exchange_rate_t rate1, exchange_rate_t rate2) {
   int bn = strcmp(rate1.bank_name, rate2.bank_name);
   int cf = strcmp(rate1.currency_from, rate2.currency_from);
   int ct = strcmp(rate1.currency_to, rate2.currency_to);

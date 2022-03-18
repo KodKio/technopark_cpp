@@ -1,12 +1,12 @@
 #include "../include/array_of_rates.h"
 
-void grow(Array_of_rates* arr_rates) {
+void grow(array_of_rates_t* arr_rates) {
   if (arr_rates->size == 0) {
     arr_rates->capacity = 1;
-    arr_rates->array = malloc(sizeof(Exchange_rate));
+    arr_rates->array = malloc(sizeof(exchange_rate_t));
   } else {
     size_t new_capacity = arr_rates->capacity * 2;
-    Exchange_rate* new_array = malloc(sizeof(Exchange_rate) * new_capacity);
+    exchange_rate_t* new_array = malloc(sizeof(exchange_rate_t) * new_capacity);
     for (int i = 0; i < arr_rates->capacity; i++) {
       new_array[i] = arr_rates->array[i];
     }
@@ -28,17 +28,17 @@ int input_int(int l, int r, FILE* in, FILE* out) {
   return number;
 }
 
-void add_rate(Array_of_rates* arr_rates, FILE* in, FILE* out) {
+void add_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out) {
   if (arr_rates->size == arr_rates->capacity) {
     grow(arr_rates);
   }
-  Exchange_rate new_rate = create_rate(in, out);
+  exchange_rate_t new_rate = create_rate(in, out);
   arr_rates->array[arr_rates->size] = new_rate;
   arr_rates->size++;
   fprintf(out, "Rate added.\n");
 }
 
-int delete_rate(Array_of_rates* arr_rates, FILE* in, FILE* out) {
+int delete_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out) {
   if (arr_rates->size == 0) {
     return ERROR;
   }
@@ -55,14 +55,14 @@ int delete_rate(Array_of_rates* arr_rates, FILE* in, FILE* out) {
   return SUCCESS;
 }
 
-void delete_on_index(Array_of_rates* arr_rates, int index) {
+void delete_on_index(array_of_rates_t* arr_rates, int index) {
   size_t new_size = arr_rates->size - 1;
   size_t new_capacity = arr_rates->capacity;
   if (arr_rates->capacity / 2 >= new_size) {
     new_capacity = arr_rates->capacity / 2;
   }
 
-  Exchange_rate* new_arr = malloc(sizeof(Exchange_rate) * new_capacity);
+  exchange_rate_t* new_arr = malloc(sizeof(exchange_rate_t) * new_capacity);
 
   for (int i = 0; i < index; i++) {
     new_arr[i] = arr_rates->array[i];
@@ -78,7 +78,7 @@ void delete_on_index(Array_of_rates* arr_rates, int index) {
   arr_rates->capacity = new_capacity;
 }
 
-int find_rate(Array_of_rates* arr_rates, FILE* in, FILE* out) {
+int find_rate(array_of_rates_t* arr_rates, FILE* in, FILE* out) {
   if (arr_rates->size == 0) {
     return ERROR;
   }
@@ -98,13 +98,13 @@ int find_rate(Array_of_rates* arr_rates, FILE* in, FILE* out) {
   double g_min = 1000000;
   double min = 1000000;
 
-  Array_of_rates result = {NULL, 0, 0};
+  array_of_rates_t result = {NULL, 0, 0};
   for (int i = 0; i < arr_rates->size; i++) {
     if (strcmp(currency_from, arr_rates->array[i].currency_from) == 0) {
-      Array_of_rates res = {NULL, 0, 0};
+      array_of_rates_t res = {NULL, 0, 0};
 
-      Array_of_rates colored = {malloc(sizeof(Exchange_rate) * arr_rates->size),
-                                0, arr_rates->capacity};
+      array_of_rates_t colored = {malloc(sizeof(exchange_rate_t) * arr_rates->size),
+                                  0, arr_rates->capacity};
       colored.array[0] = arr_rates->array[i];
       colored.size = 1;
 
@@ -132,8 +132,8 @@ int find_rate(Array_of_rates* arr_rates, FILE* in, FILE* out) {
   }
 }
 
-void find(Array_of_rates* result, Array_of_rates* colored,
-          Array_of_rates* arr_rates, Exchange_rate rate_from, char* to,
+void find(array_of_rates_t* result, array_of_rates_t* colored,
+          array_of_rates_t* arr_rates, exchange_rate_t rate_from, char* to,
           double now, double* min) {
   if (strcmp(rate_from.currency_to, to) == 0) {
     if (now < *min) {
@@ -141,7 +141,7 @@ void find(Array_of_rates* result, Array_of_rates* colored,
       if (result->array) free(result->array);
       result->size = 1;
       result->capacity = 1;
-      result->array = malloc(sizeof(Exchange_rate));
+      result->array = malloc(sizeof(exchange_rate_t));
       result->array[0] = rate_from;
     }
     return;
@@ -172,16 +172,16 @@ void find(Array_of_rates* result, Array_of_rates* colored,
   }
 }
 
-void copy_array_of_rates(Array_of_rates* dest, Array_of_rates* source) {
+void copy_array_of_rates(array_of_rates_t* dest, array_of_rates_t* source) {
   dest->size = source->size;
   dest->capacity = source->capacity;
-  dest->array = malloc(sizeof(Exchange_rate) * dest->capacity);
+  dest->array = malloc(sizeof(exchange_rate_t) * dest->capacity);
   for (int i = 0; i < dest->size; i++) {
     dest->array[i] = source->array[i];
   }
 }
 
-bool check_in_array(Exchange_rate rate, Array_of_rates* array) {
+bool check_in_array(exchange_rate_t rate, array_of_rates_t* array) {
   for (int i = 0; i < array->size; i++) {
     if (eq_rates(rate, array->array[i])) {
       return true;
@@ -190,21 +190,21 @@ bool check_in_array(Exchange_rate rate, Array_of_rates* array) {
   return false;
 }
 
-void show_list_of_currency_from(Array_of_rates* arr_rates, FILE* out) {
+void show_list_of_currency_from(array_of_rates_t* arr_rates, FILE* out) {
   for (int i = 0; i < arr_rates->size; i++) {
     fprintf(out, "%3d) %s\n", i + 1, arr_rates->array[i].currency_from);
   }
   fprintf(out, "\n");
 }
 
-void show_list_of_currency_to(Array_of_rates* arr_rates, FILE* out) {
+void show_list_of_currency_to(array_of_rates_t* arr_rates, FILE* out) {
   for (int i = 0; i < arr_rates->size; i++) {
     fprintf(out, "%3d) %s\n", i + 1, arr_rates->array[i].currency_to);
   }
   fprintf(out, "\n");
 }
 
-void show_list_reversed(Array_of_rates* arr_rates, FILE* out) {
+void show_list_reversed(array_of_rates_t* arr_rates, FILE* out) {
   fprintf(out, "List of exchange rates:\n");
   for (int i = (int)arr_rates->size - 1, j = 0; i >= 0; i--, j++) {
     fprintf(out, "%3d)", j + 1);
@@ -212,7 +212,7 @@ void show_list_reversed(Array_of_rates* arr_rates, FILE* out) {
   }
 }
 
-void print_result_ratio(Array_of_rates* arr_rates, FILE* out) {
+void print_result_ratio(array_of_rates_t* arr_rates, FILE* out) {
   double result = 1;
   for (int i = 0; i < arr_rates->size; i++) {
     result *= arr_rates->array[i].ratio;
@@ -220,7 +220,7 @@ void print_result_ratio(Array_of_rates* arr_rates, FILE* out) {
   fprintf(out, "Resulting rate = %lf\n", result);
 }
 
-int show_list(Array_of_rates* arr_rates, FILE* out) {
+int show_list(array_of_rates_t* arr_rates, FILE* out) {
   if (arr_rates->size == 0) {
     return ERROR;
   }

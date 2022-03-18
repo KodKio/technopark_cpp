@@ -2,7 +2,7 @@
 
 void run(FILE* in, FILE* out);
 
-void do_action(int number, Array_of_rates* arr_rates, FILE* in, FILE* out);
+void do_action(int number, array_of_rates_t* arr_rates, FILE* in, FILE* out);
 
 int main() {
   run(stdin, stdout);
@@ -10,7 +10,7 @@ int main() {
 }
 
 void run(FILE* in, FILE* out) {
-  Array_of_rates arr_rates = {NULL, 0, 0};
+  array_of_rates_t arr_rates = {NULL, 0, 0};
   bool flag = true;
   while (flag) {
     fprintf(out,
@@ -38,7 +38,7 @@ void run(FILE* in, FILE* out) {
   printf("Пока!\n");
 }
 
-void do_action(int number, Array_of_rates* arr_rates, FILE* in, FILE* out) {
+void do_action(int number, array_of_rates_t* arr_rates, FILE* in, FILE* out) {
   switch (number) {
     case 1: {
       add_rate(arr_rates, in, out);
