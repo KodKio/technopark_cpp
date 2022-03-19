@@ -1,8 +1,10 @@
 # technopark_cpp
 
-[![codecov](https://codecov.io/gh/KodKio/technopark_cpp/branch/master/graph/badge.svg?token=WIOT1V91VL)](https://codecov.io/gh/KodKio/technopark_cpp)
+[![codecov](https://codecov.io/gh/KodKio/technopark_cpp/branch/homework_1/graph/badge.svg?token=WIOT1V91VL)](https://codecov.io/gh/KodKio/technopark_cpp)
 
 # Домашнее задание №1: ИЗ №1
+
+## Степанов Николай ML-13
 
 ## Задание
 
@@ -12,20 +14,22 @@
 
 Сборка
 
-```
-cmake CMakeLists.txt
+``
+mkdir build
+cd build
+cmake ..
 make
 ```
 
 Запуск
 
 ```
-./exchange_rates
+./build/exchange_rate
 ```
 
 
 Запуск тестов
 
 ```
-./tests 
+./build/tests/test_exchange_rate
 ```
