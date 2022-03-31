@@ -8,7 +8,7 @@
 
 #include "parallel.h"
 
-#define PROCESS_COUNT 4
+#define PROCESS_COUNT 1
 
 object_t* get_objects(FILE* in, size_t* size_objects) {
     if (fscanf(in, SIZE_FORMAT_STRING, size_objects) != 1) {
@@ -103,7 +103,7 @@ int users_cmp(const user_t first, const user_t second) {
 
 int not_in_array(user_t user, user_t* array, const size_t size) {
     for (int i = 0; i < size; i++) {
-        if (!users_cmp(user, array[i]))
+        if (users_cmp(user, array[i]))
             return 0;
     }
     return 1;
@@ -120,7 +120,7 @@ int* get_recommendation(const user_t how, const user_t* users, const size_t size
         double min_dist = sqrt((MAX_RATE - MIN_RATE) * (MAX_RATE - MIN_RATE) * MAX_COUNT_OBJECTS);
         int min_index = -1;
         for (int i = 0; i < size_users; i++) {
-            if (!users_cmp(how, users[i])) {
+            if (!users_cmp(how, users[i]) && strcmp(users[i].name, "") != 0) {
                 double dist = euclidean_dist(how, users[i]);
                 if (dist < min_dist && not_in_array(users[i], colored, size_colored)) {
                     min_index = i;
@@ -130,7 +130,7 @@ int* get_recommendation(const user_t how, const user_t* users, const size_t size
         }
 
         size_colored++;
-        colored[size_colored] = users[min_index];
+        user_cpy(&colored[size_colored], users[min_index]);
         for (int rate = MAX_RATE; rate >= MIN_RATE; rate--) {
             for (int i = 0; i < users[min_index].size_rates; i++)
                 if (how.rates[i] == WITHOUT_RATE && users[min_index].rates[i] == rate) {
@@ -144,6 +144,9 @@ int* get_recommendation(const user_t how, const user_t* users, const size_t size
 }
 
 user_t* get_recommendation_users(const user_t who, const user_t* users, const size_t size_users) {
+    if (!users)
+        return NULL;
+    printf("%s %zu\n", who.name, size_users);
     size_t size = TOP_SIZE > size_users ? size_users : TOP_SIZE;
     user_t* result = malloc(sizeof(user_t) * size);
     size_t size_result = 0;
@@ -152,15 +155,16 @@ user_t* get_recommendation_users(const user_t who, const user_t* users, const si
         double min_dist = sqrt((MAX_RATE - MIN_RATE) * (MAX_RATE - MIN_RATE) * MAX_COUNT_OBJECTS);
         int min_index = -1;
         for (int j = 0; j < size_users; j++) {
-            if (!users_cmp(who, users[i])) {
+            if (!users_cmp(who, users[j]) && not_in_array(users[j], result, size_result)) {
                 double dist = euclidean_dist(who, users[j]);
-                if (dist <= min_dist && not_in_array(users[j], result, size_result)) {
-                    min_index = i;
+                if (dist <= min_dist) {
+                    min_index = j;
                     min_dist = dist;
                 }
             }
         }
-        result[size_result] = users[min_index];
+        user_cpy(&result[size_result], users[min_index]);
+
         size_result++;
     }
 
@@ -191,55 +195,76 @@ int* parallel_get_recommendation(const char* users_filename, user_t who, const s
     }
     users_per_process[PROCESS_COUNT - 1] = n_per_process + (int)size_users % PROCESS_COUNT;
 
-    pid_t pid;
+    user_t** users = malloc(sizeof(user_t*) * PROCESS_COUNT);
     for (int i = 0; i < PROCESS_COUNT; i++) {
-        user_t* users = get_k_users(in, users_per_process[i], size_objects);
-        pid = fork();
-        if (pid == -1 || users == NULL) {
-            fclose(in);
+        users[i] = malloc(sizeof(user_t) * users_per_process[i]);
+        users[i] = get_k_users(in, users_per_process[i], size_objects);
+    }
+
+    fclose(in);
+
+    pid_t* pids = malloc(sizeof(pid_t) * PROCESS_COUNT);
+    for (int i = 0; i < PROCESS_COUNT; i++) {
+        get_recommendation_users(who, users[i], users_per_process[i]);
+        printf("5,");
+        pids[i] = fork();
+        if (pids[i] == -1) {
             close(fd[0]);
             close(fd[1]);
-            return NULL;
+            exit(-1);
         }
-        if (pid == 0) {
-            user_t* user_recommendation = get_recommendation_users(who, users, users_per_process[i]);
-            size_t size_user_recommendation = sizeof(user_t) * (TOP_SIZE > size_users ? size_users : TOP_SIZE);
-            write(fd[1], user_recommendation, size_user_recommendation);
+        if (pids[i] == 0) {
             close(fd[0]);
+            printf("1\n");
+            user_t* recs = get_recommendation_users(who, users[i], users_per_process[i]);
+            printf("4,");
+            size_t size_recs = (users_per_process[i] < TOP_SIZE ? users_per_process[i] : TOP_SIZE);
+            for (int j = 0; j < size_recs; j++) {
+                printf("3,");
+                write(fd[1], &recs[j], sizeof(user_t));
+                printf("2,");
+            }
+            free(recs);
             close(fd[1]);
-            free(users);
-            free(user_recommendation);
-            fclose(in);
             exit(0);
         }
-        free(users);
     }
 
+    for (int i = 0; i < PROCESS_COUNT; ++i) {
+        int status;
+        waitpid(pids[i], &status, 0);
+    }
+
+    close(fd[1]);
     size_t size_users_final = 0;
     for (int i = 0; i < PROCESS_COUNT; i++) {
-        size_users_final += users_per_process[i] < TOP_SIZE ? users_per_process[i] : TOP_SIZE;
+        size_users_final += (users_per_process[i] < TOP_SIZE ? users_per_process[i] : TOP_SIZE);
     }
     user_t* users_final = malloc(sizeof(user_t) * size_users_final);
-    int k = 0;
 
-    for (int i = 0; i < PROCESS_COUNT; i++) {
-        size_t size = users_per_process[i] < TOP_SIZE ? users_per_process[i] : TOP_SIZE;
-        user_t* tmp_users = malloc(sizeof(user_t) * size);
-        read(fd[0], tmp_users, sizeof(user_t) * size);
-        for (int j = 0; j < size; j++) {
-            users_final[k] = tmp_users[j];
-            k++;
-        }
-        free(tmp_users);
+    for (int j = 0; j < size_users_final; j++) {
+        read(fd[0], &users_final[j], sizeof(user_t));
     }
 
     int* result = get_recommendation(who, users_final, size_users_final);
 
     free(users_final);
-    fclose(in);
+    close(fd[0]);
+
+    int status = 0;
+    wait(&status);
 
     return result;
 }
+
+void user_cpy(user_t* dest, const user_t source) {
+    strcpy(dest->name, source.name);
+    strcpy(dest->surname, source.surname);
+    dest->size_rates =  source.size_rates;
+    for (int j = 0; j < dest->size_rates; j++) {
+        dest->rates[j] = source.rates[j];
+    }
+};
 
 object_t* get_objects_by_index(const int* indexes, const size_t size_indexes, const object_t* objects,
                                const size_t size_objects) {
