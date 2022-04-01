@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - homework_1
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Installing
+        run: |
+          sudo apt update
+          sudo apt install valgrind
+          pip install gcovr
+          git clone https://github.com/google/googletest.git -b release-1.11.0
+          cd googletest
+          mkdir build
+          cd build
+          cmake .. -DBUILD_GMOCK=OFF
+          make
+          sudo make install
+          cd ../..
+      - name: Building
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+      - name: Testing
+        run: |
+          valgrind --tool=memcheck --leak-check=full ./build/tests/test_recommend
