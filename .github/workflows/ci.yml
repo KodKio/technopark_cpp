@@ -33,4 +33,5 @@ jobs:
           make
       - name: Testing
         run: |
-          valgrind --tool=memcheck --leak-check=full ./build/tests/test_recommend
+          cd build
+          valgrind --tool=memcheck --leak-check=full ./tests/test_recommend
