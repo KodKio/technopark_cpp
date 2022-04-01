@@ -8,9 +8,9 @@ extern "C" {
 }
 
 TEST(GeneralSuite, TestGetObjects) {
-    FILE* in = fopen("../../tests/data/films1000.txt", "r");
+    FILE* in = fopen("../tests/data/films1000.txt", "r");
     size_t size_objects = 0;
-    object_t *objects = get_objects(in, &size_objects);
+    object_t *objects = get_objects(in, &size_objects);;
 
     EXPECT_EQ(size_objects, 1000);
     rewind(in);
@@ -30,31 +30,31 @@ TEST(GeneralSuite, TestGetObjects) {
 }
 
 TEST(GeneralSuite, TestGetUsers) {
-    FILE* in = fopen("../../tests/data/users1000.txt", "r");
+    FILE* in = fopen("../tests/data/users1000.txt", "r");
     size_t size_object = 1000;
 
     size_t size_users = 0;
     user_t *users = get_users(in, &size_users, size_object);
 
-    EXPECT_EQ(size_users, 1500);
+    EXPECT_EQ(size_users, 15);
     rewind(in);
 
     user_t *users_parallel = get_users_parallel(in, &size_users, size_object);
 
-    EXPECT_EQ(size_users, 1500);
+    EXPECT_EQ(size_users, 15);
 
-    EXPECT_STREQ(users_parallel[0].name, "Gene");
-    EXPECT_STREQ(users[0].name, "Gene");
+    EXPECT_STREQ(users_parallel[0].name, "Marko");
+    EXPECT_STREQ(users[0].name, "Marko");
 
-    EXPECT_STREQ(users_parallel[999].name, "Dieter");
-    EXPECT_STREQ(users[999].name, "Dieter");
+    EXPECT_STREQ(users_parallel[14].name, "Ishmael");
+    EXPECT_STREQ(users[14].name, "Ishmael");
 
     free(users_parallel);
     free(users);
 }
 
 TEST(GeneralSuite, TestGetRecsUsers) {
-    char filename[] = "../../tests/data/users1000.txt";
+    char filename[] = "../tests/data/users1000.txt";
     FILE *in = fopen(filename, "r");
 
     size_t size_objects = 1000;
@@ -90,7 +90,7 @@ TEST(GeneralSuite, TestGetObjectsByIndex) {
             "The Return\n"
     };
 
-    FILE* in = fopen("../../tests/data/films1000.txt", "r");
+    FILE* in = fopen("../tests/data/films1000.txt", "r");
     size_t size_objects = 0;
 
     object_t* objects = get_objects(in, &size_objects);

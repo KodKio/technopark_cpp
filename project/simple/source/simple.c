@@ -118,7 +118,6 @@ int* get_recommendation(user_t how, const user_t* users, size_t size_users) {
 
 object_t* get_objects_by_index(const int* indexes, const size_t size_indexes, const object_t* objects,
                                const size_t size_objects) {
-    puts("1");
     object_t* result = malloc(sizeof(object_t) * size_indexes);
     for (size_t i = 0; i < size_indexes; ++i) {
         if (indexes[i] >= (int)size_objects) {

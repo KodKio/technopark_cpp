@@ -31,9 +31,6 @@ jobs:
           cd build
           cmake ..
           make
-          ls -al
-          echo "---------"
-          ls -al ..
       - name: Testing
         run: |
           valgrind --tool=memcheck --leak-check=full ./build/tests/test_recommend
