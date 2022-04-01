@@ -34,4 +34,15 @@ jobs:
       - name: Testing
         run: |
           cd build
-          valgrind --tool=memcheck --leak-check=full ./tests/test_recommend
+          ./tests/test_recommend
+      - name: Generate coverage
+        run: |
+          cd build
+          mkdir coverage-report
+          cd coverage-report
+          gcovr -r ../../ --filter ../../project/*/source/ -o coverage.xml --xml
+      - name: Upload coverage
+        uses: codecov/codecov-action@v2
+        with:
+          token: 78688142-4057-47ea-8c80-46a22c531a0a
+          files: ./build/coverage-report/coverage.xml
