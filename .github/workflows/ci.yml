@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - homework_1
+      - homework_2
 
 defaults:
   run:
