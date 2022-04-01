@@ -5,8 +5,6 @@
 
 object_t * get_objects_parallel(FILE* in, size_t* size_objects);
 
-user_t* get_k_users_parallel(FILE* in, size_t k, size_t size_objects);
-
 user_t* get_users_parallel(FILE* in, size_t* size_users, const size_t size_objects);
 
 double euclidean_dist_parallel(user_t first, user_t second);

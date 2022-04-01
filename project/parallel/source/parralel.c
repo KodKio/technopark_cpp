@@ -28,30 +28,6 @@ object_t* get_objects_parallel(FILE* in, size_t* size_objects) {
     return objects;
 }
 
-user_t* get_k_users_parallel(FILE* in, size_t k, size_t size_objects) {
-    if (in == NULL)
-        return NULL;
-
-    user_t *users = malloc(sizeof(user_t) * k);
-    if (users == NULL)
-        return NULL;
-
-    for (size_t i = 0; i < k; ++i) {
-        users[i].size_rates = size_objects;
-        if (fscanf(in, USER_INFORMATION_FORMAT_STRING, users[i].name, users[i].surname) != 2) {
-            free(users);
-            return NULL;
-        }
-        for (size_t j = 0; j < users[i].size_rates; ++j) {
-            if (fscanf(in, RATE_FORMAT_STRING, &users[i].rates[j]) != 1) {
-                free(users);
-                return NULL;
-            }
-        }
-    }
-    return users;
-}
-
 user_t* get_users_parallel(FILE* in, size_t* size_users, const size_t size_objects) {
     if (in == NULL)
         return NULL;
@@ -78,7 +54,7 @@ user_t* get_users_parallel(FILE* in, size_t* size_users, const size_t size_objec
     return users;
 }
 
-double euclidean_dist_parallel(user_t first, user_t second) {
+double euclidean_dist_parallel(const user_t first, const user_t second) {
     if (first.size_rates != second.size_rates)
         return -1;
     double sum = 0;
@@ -88,7 +64,7 @@ double euclidean_dist_parallel(user_t first, user_t second) {
     return sqrt(sum);
 }
 
-int users_cmp_parallel(user_t first, user_t second) {
+int users_cmp_parallel(const user_t first, const user_t second) {
     if (strcmp(first.name, second.name) != 0)
         return 0;
     if (strcmp(first.surname, second.surname) != 0)
