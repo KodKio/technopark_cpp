@@ -34,10 +34,12 @@ user_t* get_users_parallel(FILE* in, size_t* size_users, const size_t size_objec
     if (fscanf(in, SIZE_FORMAT_STRING, size_users) != 1) {
         return NULL;
     }
+
     user_t* users = malloc(sizeof(user_t) * (*size_users));
     if (!users) {
         return NULL;
     }
+
     for (size_t i = 0; i < *size_users; ++i) {
         users[i].size_rates = size_objects;
         if (fscanf(in, USER_INFORMATION_FORMAT_STRING, users[i].name, users[i].surname) != 2) {
