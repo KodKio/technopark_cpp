@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "stdio.h"
 
 #include "simple.h"
@@ -5,7 +6,7 @@
 int run(const char* films_file_name, const char* users_file_name);
 
 int main() {
-    run("../project/data/films1000.txt", "../project/data/users1000.txt");
+    run("../tests/data/films1000.txt", "../tests/data/users1000.txt");
     return 0;
 }
 
@@ -32,15 +33,21 @@ int run(const char* films_file_name, const char* users_file_name) {
         printf("Read error");
         return 1;
     }
-    if (user_index < 0 || user_index >= size_users) {
+    if (user_index < 0 || user_index >= (int)size_users) {
         printf("No such user");
         return 1;
     }
     indexes = get_recommendation(users[user_index], users, size_users);
     printf("%s %s:\n", users[user_index].name, users[user_index].surname);
+    free(users);
     result = get_objects_by_index(indexes, TOP_SIZE, objects, size_objects);
+    free(indexes);
     for (int i = 0; i < TOP_SIZE; i++) {
         printf("%s", result[i].name);
     }
+    free(objects);
+    fclose(objects_file);
+    fclose(users_file);
+    free(result);
     return 0;
 }
