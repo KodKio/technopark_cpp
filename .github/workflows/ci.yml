@@ -1,0 +1,48 @@
+on:
+  push:
+    branches:
+      - homework_2
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Installing
+        run: |
+          sudo apt update
+          sudo apt install valgrind
+          pip install gcovr
+          git clone https://github.com/google/googletest.git -b release-1.11.0
+          cd googletest
+          mkdir build
+          cd build
+          cmake .. -DBUILD_GMOCK=OFF
+          make
+          sudo make install
+          cd ../..
+      - name: Building
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+      - name: Testing
+        run: |
+          cd build
+          ./tests/test_recommend
+      - name: Generate coverage
+        run: |
+          cd build
+          mkdir coverage-report
+          cd coverage-report
+          gcovr -r ../../ --filter ../../project/*/source/ -o coverage.xml --xml
+      - name: Upload coverage
+        uses: codecov/codecov-action@v2
+        with:
+          token: 78688142-4057-47ea-8c80-46a22c531a0a
+          files: ./build/coverage-report/coverage.xml
