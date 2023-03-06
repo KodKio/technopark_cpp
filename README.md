@@ -1,8 +1,7 @@
 # technopark_cpp
 
 [![codecov](https://codecov.io/gh/KodKio/technopark_cpp/branch/homework_1/graph/badge.svg?token=WIOT1V91VL)](https://codecov.io/gh/KodKio/technopark_cpp)
-[![Techpark Actions status](https://github.com/KodKio/techopark_cpp/actions/workflows/techpark/badge.svg)]
-(https://github.com/KodKio/techopark_cpp/actions)
+[![CI/CD status](https://github.com/KodKio/technopark_cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/KodKio/technopark_cpp/actions/workflows/ci.yml)
 
 # Домашнее задание №1: ИЗ №1
 
