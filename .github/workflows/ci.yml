@@ -75,7 +75,7 @@ jobs:
       - name: Check format
         run: |
           cd ./scripts
-          ./scripts/formating.sh
+          ./formating.sh
           cd ..
       - name: Cppcheck
         run: |
