@@ -2,8 +2,7 @@
 
 STYLE="Google"
 FILES=("../main.c" "../project/source/exchange_rate.c" \
-                 "../project/include/exchange_rate.h" \
-                 "../project/source/array_of_rates.c")
+                 "../project/include/exchange_rate.h")
 
 TMP_FOLDER="tmp"
 mkdir -p $TMP_FOLDER
