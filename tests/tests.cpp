@@ -170,7 +170,7 @@ TEST(ArraySuite, TestAddRateFull) {
   free(arr.array);
 }
 
-TEST(ArraySuite, TestDeleteOnIndex) {
+TEST(ArraySuite, TestDeleteOnIndex){
   array_of_rates_t arr = {(exchange_rate_t*)malloc(sizeof(exchange_rate_t) * 4), 3,
                           4};
   exchange_rate_t first = {(char*)"alf", (char*)"RUB", (char*)"USD", 100};
