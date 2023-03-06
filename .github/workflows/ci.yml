@@ -74,7 +74,9 @@ jobs:
           make
       - name: Check format
         run: |
+          cd ./scripts
           ./scripts/formating.sh
+          cd ..
       - name: Cppcheck
         run: |
           cppcheck --inconclusive --enable=all --language=c++ ./tests/tests.cpp
